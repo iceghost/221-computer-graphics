@@ -6,12 +6,13 @@
 
 #include "cuboid.h"
 #include "cylinder.h"
+#include "slid.h"
 #include "tetrahedron.h"
 
 int screenWidth = 600;
 int screenHeight = 300;
 
-int nChoice = 1;
+int nChoice = 5;
 
 void drawAxis() {
   glColor3f(0, 0, 1);
@@ -47,6 +48,8 @@ void myDisplay() {
     ptr = new cuboid(1, 2, 3);
   else if (nChoice == 4)
     ptr = new cylinder(10, 2, 1);
+  else if (nChoice == 5)
+    ptr = new slid(2, 1, 5, 1, 0.5);
   else
     throw "unrecognized choice";
 
@@ -78,7 +81,6 @@ int main(int argc, const char **argv) {
   //	cout << "2. Cube" << endl;
   //	cout << "Input the choice: " << endl;
   //	cin  >> nChoice;
-  nChoice = 4;
 
   glutInit(&argc, (char **)argv); // initialize the tool kit
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB |
