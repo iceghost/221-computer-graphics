@@ -26,14 +26,14 @@ jobs:
       id: cache-glut
       uses: actions/cache@v3
       with:
-        path: freeglut-MSVC-3.0.0-2.mp.zip
+        path: freeglut-MSVC.zip
         key: ${{ runner.os }}-glut
         
     - name: Download GLUT
       if: steps.cache-glut.outputs.cache-hit != 'true'
-      run: |
-        curl https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip \
-          -o freeglut-MSVC.zip
+      run: >
+        curl -o freeglut-MSVC.zip -L \
+          https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip
         
     - name: Install GLUT
       run: |
