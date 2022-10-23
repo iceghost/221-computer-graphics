@@ -36,7 +36,7 @@ jobs:
         
     - name: Install GLUT
       run: |
-        7za x freeglut-MSVC.zip
+        7z x freeglut-MSVC.zip
         mv freeglut/include/GL/* C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/include
         mv freeglut/lib/x64/* C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/lib
 
