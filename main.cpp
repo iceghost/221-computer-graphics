@@ -7,13 +7,14 @@
 #include "cuboid.h"
 #include "cylinder.h"
 #include "hollow_cylinder.h"
+#include "tbox.h"
 #include "tetrahedron.h"
 #include "ubox.h"
 
 int screenWidth = 600;
 int screenHeight = 300;
 
-int nChoice = 5;
+int nChoice = 7;
 
 void drawAxis() {
   glColor3f(0, 0, 1);
@@ -53,6 +54,8 @@ void myDisplay() {
     ptr = new ubox(2, 1, 5, 1, 0.5);
   else if (nChoice == 6)
     ptr = new hollow_cylinder(100, 5, 2, 1);
+  else if (nChoice == 7)
+    ptr = new tbox(2, 1, 5, 1, 0.5);
   else
     throw "unrecognized choice";
 
