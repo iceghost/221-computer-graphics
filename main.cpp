@@ -6,13 +6,14 @@
 
 #include "cuboid.h"
 #include "cylinder.h"
+#include "hollow_cylinder.h"
 #include "slid.h"
 #include "tetrahedron.h"
 
 int screenWidth = 600;
 int screenHeight = 300;
 
-int nChoice = 5;
+int nChoice = 6;
 
 void drawAxis() {
   glColor3f(0, 0, 1);
@@ -50,6 +51,8 @@ void myDisplay() {
     ptr = new cylinder(10, 2, 1);
   else if (nChoice == 5)
     ptr = new slid(2, 1, 5, 1, 0.5);
+  else if (nChoice == 6)
+    ptr = new hollow_cylinder(100, 5, 2, 1);
   else
     throw "unrecognized choice";
 
