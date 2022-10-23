@@ -1,5 +1,5 @@
 #include "rect.h"
-#include "cmath"
+#include <cmath>
 #ifdef _WIN32
 #include <windows.h>
 #endif

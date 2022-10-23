@@ -4,6 +4,10 @@ cmake_minimum_required(VERSION 3.24)
 set(CXX_STANDARD 11)
 set(CXX_STANDARD_REQUIRED TRUE)
 
+IF(MSVC)
+  add_definitions(-D_USE_MATH_DEFINES)
+ENDIF()
+
 add_executable(main main.cpp)
 add_subdirectory(mesh)
 add_subdirectory(supportclasses)
