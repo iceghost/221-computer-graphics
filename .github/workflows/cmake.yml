@@ -2,9 +2,9 @@ name: CMake
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 env:
   BUILD_TYPE: Release
@@ -14,43 +14,42 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Cache CMAKE
-      uses: actions/cache@v3
-      with:
-        path: build
-        key: ${{ runner.os }}-cmake
-        
-    - name: Cache GLUT
-      id: cache-glut
-      uses: actions/cache@v3
-      with:
-        path: freeglut-MSVC.zip
-        key: ${{ runner.os }}-glut
-        
-    - name: Download GLUT
-      if: steps.cache-glut.outputs.cache-hit != 'true'
-      run: >
-        curl -o freeglut-MSVC.zip -L https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip
-        
-    - name: Install GLUT
-      run: |
-        7z x freeglut-MSVC.zip
+      - uses: actions/checkout@v3
 
-    - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=${{github.workspace}}/freeglut
+      - name: Cache CMAKE
+        uses: actions/cache@v3
+        with:
+          path: build
+          key: ${{ runner.os }}-cmake
 
-    - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target main
+      - name: Cache GLUT
+        id: cache-glut
+        uses: actions/cache@v3
+        with:
+          path: freeglut-MSVC.zip
+          key: ${{ runner.os }}-glut
 
-    - uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "latest"
-        title: "main"
-        files: |
-          build/main.exe
-          freeglut/bin/x64/*
-          freeglut/bin/*
-      
+      - name: Download GLUT
+        if: steps.cache-glut.outputs.cache-hit != 'true'
+        run: >
+          curl -o freeglut-MSVC.zip -L https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip
+
+      - name: Install GLUT
+        run: |
+          7z x freeglut-MSVC.zip
+          mv -Force freeglut/lib/x64/* freeglut/lib
+
+      - name: Configure CMake
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=${{github.workspace}}/freeglut
+
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target main
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          title: "main-x64"
+          files: |
+            build/main.exe
+            freeglut/bin/x64/*
