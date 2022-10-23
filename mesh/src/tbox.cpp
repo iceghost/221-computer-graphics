@@ -1,4 +1,4 @@
-#include "tbox.h"
+#include "tbox.hpp"
 
 tbox::tbox(float dx, float dy, float dz, float w, float depth) : mesh(16, 12) {
   float hdx = dx / 2, hdy = dy / 2, hdz = dz / 2, hw = w / 2;

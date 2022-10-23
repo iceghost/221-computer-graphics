@@ -1,4 +1,4 @@
-#include "point2.h"
+#include "point2.hpp"
 #ifdef _WIN32
 #include <windows.h>
 #endif

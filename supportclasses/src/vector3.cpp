@@ -1,4 +1,4 @@
-#include "vector3.h"
+#include "vector3.hpp"
 #include <cmath>
 
 Vector3::Vector3(float dx, float dy, float dz) : dx(dx), dy(dy), dz(dz) {}

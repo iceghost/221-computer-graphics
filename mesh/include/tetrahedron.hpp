@@ -1,5 +1,5 @@
 #pragma once
-#include "mesh.h"
+#include "mesh.hpp"
 
 class tetrahedron : public mesh {
 public:

@@ -7,14 +7,14 @@
 #include <iostream>
 #include <memory>
 
-#include "cuboid.h"
-#include "cylinder.h"
-#include "hollow_box.h"
-#include "hollow_cylinder.h"
-#include "pointed_cylinder.h"
-#include "tbox.h"
-#include "tetrahedron.h"
-#include "ubox.h"
+#include "cuboid.hpp"
+#include "cylinder.hpp"
+#include "hollow_box.hpp"
+#include "hollow_cylinder.hpp"
+#include "pointed_cylinder.hpp"
+#include "tbox.hpp"
+#include "tetrahedron.hpp"
+#include "ubox.hpp"
 
 int screenWidth = 600;
 int screenHeight = 300;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "color3.h"
-#include "point3.h"
+#include "color3.hpp"
+#include "point3.hpp"
 #include <array>
 
 class mesh {

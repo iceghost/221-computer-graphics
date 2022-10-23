@@ -1,4 +1,4 @@
-#include "hollow_box.h"
+#include "hollow_box.hpp"
 #include <cmath>
 #include <initializer_list>
 

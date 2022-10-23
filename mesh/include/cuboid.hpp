@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mesh.h"
+#include "mesh.hpp"
 
 class cuboid : public mesh {
   float dx, dy, dz;

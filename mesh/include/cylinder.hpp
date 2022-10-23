@@ -1,5 +1,5 @@
 #pragma once
-#include "mesh.h"
+#include "mesh.hpp"
 
 class cylinder : public mesh {
   int nSegments;

@@ -1,5 +1,5 @@
-#include "mesh.h"
-#include "color3.h"
+#include "mesh.hpp"
+#include "color3.hpp"
 #ifdef _WIN32
 #include <windows.h>
 #endif

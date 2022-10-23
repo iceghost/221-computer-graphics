@@ -1,5 +1,5 @@
 #pragma once
-#include "mesh.h"
+#include "mesh.hpp"
 
 class pointed_cylinder : public mesh {
 public:

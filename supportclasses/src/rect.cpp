@@ -1,4 +1,4 @@
-#include "rect.h"
+#include "rect.hpp"
 #include <cmath>
 #ifdef _WIN32
 #include <windows.h>

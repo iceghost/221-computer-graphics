@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mesh.h"
+#include "mesh.hpp"
 
 class ubox : public mesh {
 public:

@@ -1,4 +1,4 @@
-#include "cuboid.h"
+#include "cuboid.hpp"
 
 cuboid::cuboid(float dx, float dy, float dz)
     : dx(dx), dy(dy), dz(dz), mesh(8, 6) {

@@ -1,5 +1,5 @@
 #pragma once
-#include "mesh.h"
+#include "mesh.hpp"
 
 class tbox : public mesh {
 public:
