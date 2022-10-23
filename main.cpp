@@ -6,6 +6,7 @@
 
 #include "cuboid.h"
 #include "cylinder.h"
+#include "hollow_box.h"
 #include "hollow_cylinder.h"
 #include "pointed_cylinder.h"
 #include "tbox.h"
@@ -25,8 +26,10 @@ struct choice {
     UBOX = 6,
     TBOX = 7,
     POINTED_CYLINDER = 8,
+    HOLLOW_BOX = 9,
   };
   value v;
+  choice() : v(value::HOLLOW_BOX) {}
   choice(int ivalue) : v(value(ivalue)) {}
   std::unique_ptr<mesh> getMesh() {
     mesh *ptr;
@@ -41,7 +44,7 @@ struct choice {
       ptr = new cuboid(1, 2, 3);
       break;
     case CYLINDER:
-      ptr = new cylinder(10, 2, 1);
+      ptr = new cylinder(3, 2, 1);
       break;
     case HOLLOW_CYLINDER:
       ptr = new hollow_cylinder(100, 5, 2, 1);
@@ -54,6 +57,9 @@ struct choice {
       break;
     case POINTED_CYLINDER:
       ptr = new pointed_cylinder(10, 2, 1, 1);
+      break;
+    case HOLLOW_BOX:
+      ptr = new hollow_box(20, 2, 1, 5, 1, 4);
       break;
     }
     return std::unique_ptr<mesh>(ptr);
@@ -85,7 +91,7 @@ void myDisplay() {
   drawAxis();
 
   glColor3f(0, 0, 0);
-  auto m = choice(choice::value::POINTED_CYLINDER).getMesh();
+  auto m = choice().getMesh();
   m->draw_wireframe();
   glViewport(screenWidth / 2, 0, screenWidth / 2, screenHeight);
   drawAxis();
