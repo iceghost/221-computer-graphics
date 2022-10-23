@@ -37,11 +37,9 @@ jobs:
     - name: Install GLUT
       run: |
         7z x freeglut-MSVC.zip
-        mv -Force freeglut/include/GL/* "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/include"
-        mv -Force freeglut/lib/x64/* "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/lib"
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DGLUT_INCLUDE_DIR=freeglut/include/GL -DGLUT_glut_LIBRARY=freeglut/lib/x64/freeglut.lib  
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target main
