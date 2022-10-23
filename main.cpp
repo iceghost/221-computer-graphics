@@ -7,6 +7,7 @@
 #include "cuboid.h"
 #include "cylinder.h"
 #include "hollow_cylinder.h"
+#include "pointed_cylinder.h"
 #include "tbox.h"
 #include "tetrahedron.h"
 #include "ubox.h"
@@ -14,7 +15,50 @@
 int screenWidth = 600;
 int screenHeight = 300;
 
-int nChoice = 7;
+struct choice {
+  enum value {
+    TETRAHEDRON = 1,
+    CUBE = 2,
+    CUBOID = 3,
+    CYLINDER = 4,
+    HOLLOW_CYLINDER = 5,
+    UBOX = 6,
+    TBOX = 7,
+    POINTED_CYLINDER = 8,
+  };
+  value v;
+  choice(int ivalue) : v(value(ivalue)) {}
+  std::unique_ptr<mesh> getMesh() {
+    mesh *ptr;
+    switch (this->v) {
+    case TETRAHEDRON:
+      ptr = new tetrahedron();
+      break;
+    case CUBE:
+      ptr = new cube(1);
+      break;
+    case CUBOID:
+      ptr = new cuboid(1, 2, 3);
+      break;
+    case CYLINDER:
+      ptr = new cylinder(10, 2, 1);
+      break;
+    case HOLLOW_CYLINDER:
+      ptr = new hollow_cylinder(100, 5, 2, 1);
+      break;
+    case UBOX:
+      ptr = new ubox(2, 1, 5, 1, 0.5);
+      break;
+    case TBOX:
+      ptr = new tbox(2, 1, 5, 1, 0.5);
+      break;
+    case POINTED_CYLINDER:
+      ptr = new pointed_cylinder(10, 2, 1, 1);
+      break;
+    }
+    return std::unique_ptr<mesh>(ptr);
+  }
+};
 
 void drawAxis() {
   glColor3f(0, 0, 1);
@@ -41,25 +85,7 @@ void myDisplay() {
   drawAxis();
 
   glColor3f(0, 0, 0);
-  mesh *ptr;
-  if (nChoice == 1)
-    ptr = new tetrahedron();
-  else if (nChoice == 2)
-    ptr = new cube(1);
-  else if (nChoice == 3)
-    ptr = new cuboid(1, 2, 3);
-  else if (nChoice == 4)
-    ptr = new cylinder(10, 2, 1);
-  else if (nChoice == 5)
-    ptr = new ubox(2, 1, 5, 1, 0.5);
-  else if (nChoice == 6)
-    ptr = new hollow_cylinder(100, 5, 2, 1);
-  else if (nChoice == 7)
-    ptr = new tbox(2, 1, 5, 1, 0.5);
-  else
-    throw "unrecognized choice";
-
-  std::unique_ptr<mesh> m(ptr);
+  auto m = choice(choice::value::POINTED_CYLINDER).getMesh();
   m->draw_wireframe();
   glViewport(screenWidth / 2, 0, screenWidth / 2, screenHeight);
   drawAxis();
