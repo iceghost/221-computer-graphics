@@ -1,6 +1,6 @@
-#include "slid.h"
+#include "ubox.h"
 
-slid::slid(float dx, float dy, float dz, float width, float depth)
+ubox::ubox(float dx, float dy, float dz, float width, float depth)
     : mesh(16, 14) {
   float hdx = dx / 2, hdy = dy / 2, hdz = dz / 2, hw = width / 2;
   this->verts = {// big box
