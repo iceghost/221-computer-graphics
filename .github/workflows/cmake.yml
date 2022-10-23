@@ -32,8 +32,7 @@ jobs:
     - name: Download GLUT
       if: steps.cache-glut.outputs.cache-hit != 'true'
       run: >
-        curl -o freeglut-MSVC.zip -L \
-          https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip
+        curl -o freeglut-MSVC.zip -L https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip
         
     - name: Install GLUT
       run: |
