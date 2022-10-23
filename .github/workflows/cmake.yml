@@ -51,5 +51,5 @@ jobs:
           automatic_release_tag: "latest"
           title: "main-x64"
           files: |
-            build/main.exe
+            build/Release/main.exe
             freeglut/bin/x64/*
