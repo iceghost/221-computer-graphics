@@ -27,16 +27,17 @@ jobs:
       uses: actions/cache@v3
       with:
         path: freeglut-MSVC-3.0.0-2.mp.zip
-        key: ${{ runner.os }}-cmake
+        key: ${{ runner.os }}-glut
         
     - name: Download GLUT
       if: steps.cache-glut.outputs.cache-hit != 'true'
       run: |
-        wget https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip
+        curl https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip \
+          -o freeglut-MSVC.zip
         
     - name: Install GLUT
       run: |
-        7za x freeglut-MSVC-3.0.0-2.mp.zip
+        7za x freeglut-MSVC.zip
         mv freeglut/include/GL/* C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/include
         mv freeglut/lib/x64/* C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/lib
 
