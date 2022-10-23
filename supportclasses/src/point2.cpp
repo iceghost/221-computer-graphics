@@ -1,4 +1,7 @@
 #include "point2.h"
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include <GL/gl.h>
 
 Point2::Point2(float x, float y) : x(x), y(y) {}
