@@ -11,8 +11,9 @@ ENDIF()
 add_executable(main main.cpp)
 add_subdirectory(mesh)
 add_subdirectory(supportclasses)
+add_subdirectory(scene)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
-target_link_libraries(main PRIVATE mesh supportclasses OpenGL::GL OpenGL::GLU GLUT::GLUT)
+target_link_libraries(main PRIVATE mesh supportclasses scene OpenGL::GL OpenGL::GLU GLUT::GLUT)
