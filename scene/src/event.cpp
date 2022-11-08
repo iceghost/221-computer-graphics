@@ -6,13 +6,14 @@ void mouse_event::accept(event::handler &h) const {
   return h.handle_mouse(*this);
 }
 
-keyboard_event::keyboard_event(unsigned char key, int x, int y) {}
+keyboard_event::keyboard_event(unsigned char key, int x, int y)
+    : key(key), x(x), y(y) {}
 
 void keyboard_event::accept(event::handler &h) const {
   return h.handle_keyboard(*this);
 }
 
-reshape_event::reshape_event(int w, int h) {}
+reshape_event::reshape_event(int w, int h) : w(w), h(h) {}
 
 void reshape_event::accept(event::handler &h) const {
   return h.handle_reshape(*this);

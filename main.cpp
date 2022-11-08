@@ -80,7 +80,7 @@ void drawAxis() {
   glEnd();
 }
 
-Scene scene;
+scene scene;
 
 int main(int argc, char **argv) {
   glutInit(&argc, argv);
@@ -118,7 +118,7 @@ int main(int argc, char **argv) {
     glutSwapBuffers();
   });
 
-  scene.addObj(std::make_unique<SolidObject>(cube(2)));
+  scene.add_obj(std::make_unique<solid_object>(cube(2)));
 
   glutMainLoop();
   return 0;

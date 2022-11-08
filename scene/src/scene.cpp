@@ -1,13 +1,14 @@
 #include "scene.hpp"
 #include "cuboid.hpp"
+#include <GL/gl.h>
 #include <GL/glu.h>
 #include <memory>
 
-Scene::Scene() {}
+scene::scene() {}
 
-void Scene::addObj(Scene::ObjectPtr o) { this->objs.push_back(std::move(o)); }
+void scene::add_obj(scene::object_ptr o) { this->objs.push_back(std::move(o)); }
 
-void Scene::display() {
+void scene::display() {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   gluLookAt(4.5, 4, 2, 0, 0, 0, 0, 1, 0);
@@ -16,6 +17,8 @@ void Scene::display() {
 
   glColor3f(0, 0, 0);
 
+  glViewport(0, 0, this->w, this->h);
+
   for (auto &obj : this->objs) {
     obj->draw();
   }
@@ -23,12 +26,12 @@ void Scene::display() {
   glFlush();
 }
 
-void Scene::handle_reshape(const reshape_event &e) {
+void scene::handle_reshape(const reshape_event &e) {
   this->w = e.w;
   this->h = e.h;
   glViewport(0, 0, this->w, this->h);
 }
 
-SolidObject::SolidObject(mesh &&m) : m(std::move(m)) {}
+solid_object::solid_object(mesh &&m) : m(std::move(m)) {}
 
-void SolidObject::draw() { m.draw_wireframe(); }
+void solid_object::draw() { m.draw_wireframe(); }

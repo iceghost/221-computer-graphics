@@ -5,31 +5,32 @@
 #include <memory>
 #include <vector>
 
-class Scene final : public event::handler {
+class scene final : public event::handler {
 public:
-  class Object;
+  class object;
 
 private:
-  using ObjectPtr = std::unique_ptr<Object>;
-  std::vector<ObjectPtr> objs;
+  using object_ptr = std::unique_ptr<object>;
+  std::vector<object_ptr> objs;
   int w, h;
 
 public:
-  Scene();
+  scene();
   void handle_reshape(const reshape_event &e) override;
-  void addObj(ObjectPtr o);
+  void add_obj(object_ptr o);
   void display();
 };
 
-class Scene::Object : public event::handler {
+class scene::object : public event::handler {
 public:
+  virtual ~object() = default;
   virtual void draw() = 0;
 };
 
-class SolidObject : public Scene::Object {
+class solid_object : public scene::object {
   mesh m;
 
 public:
-  SolidObject(mesh &&m);
+  solid_object(mesh &&m);
   void draw() override;
 };
