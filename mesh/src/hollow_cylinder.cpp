@@ -1,4 +1,4 @@
-#include "hollow_cylinder.hpp"
+#include "mesh.hpp"
 #include <cmath>
 
 hollow_cylinder::hollow_cylinder(int n, float h, float R, float r)

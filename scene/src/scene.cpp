@@ -1,5 +1,5 @@
 #include "scene.hpp"
-#include "cuboid.hpp"
+#include "mesh.hpp"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <cmath>
@@ -47,9 +47,7 @@ scene::object::object() : pos(0, 0, 0) {}
 scene::object::object(Vector3 pos) : pos(pos) {}
 
 solid_object::solid_object(mesh &&m) : m(std::move(m)) {}
-void solid_object::draw(const scene &) {
-  m.draw();
-}
+void solid_object::draw(const scene &) { m.draw(); }
 
 camera::camera() {}
 void camera::draw(const scene &scene) {

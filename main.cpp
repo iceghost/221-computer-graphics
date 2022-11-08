@@ -1,16 +1,9 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
-#include "cuboid.hpp"
-#include "cylinder.hpp"
 #include "event.hpp"
-#include "hollow_box.hpp"
-#include "hollow_cylinder.hpp"
-#include "pointed_cylinder.hpp"
+#include "mesh.hpp"
 #include "scene.hpp"
-#include "tbox.hpp"
-#include "tetrahedron.hpp"
-#include "ubox.hpp"
 #include <GL/glut.h>
 #include <cmath>
 #include <iostream>
