@@ -66,20 +66,6 @@ struct choice {
   }
 };
 
-void drawAxis() {
-  glColor3f(0, 0, 1);
-  glBegin(GL_LINES);
-  glVertex3f(0, 0, 0);
-  glVertex3f(4, 0, 0);
-
-  glVertex3f(0, 0, 0);
-  glVertex3f(0, 4, 0);
-
-  glVertex3f(0, 0, 0);
-  glVertex3f(0, 0, 4);
-  glEnd();
-}
-
 scene scene;
 
 int main(int argc, char **argv) {
@@ -117,9 +103,8 @@ int main(int argc, char **argv) {
     // here. no need to import glut inside the lib, too
     glutSwapBuffers();
   });
-
-  scene.add_obj(std::make_unique<solid_object>(cube(2)));
-
+  scene.add_obj(std::make_unique<camera>());
+  scene.add_obj(std::make_unique<solid_object>(cube(1)));
   glutMainLoop();
   return 0;
 }
