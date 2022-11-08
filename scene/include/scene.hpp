@@ -6,18 +6,30 @@
 #include <vector>
 
 class Scene final : public Event::Handler {
+public:
   class Object;
-  std::vector<std::unique_ptr<Object>> objs;
+
+private:
+  using ObjectPtr = std::unique_ptr<Object>;
+  std::vector<ObjectPtr> objs;
   int w, h;
 
 public:
   Scene();
   void handleReshape(const ReshapeEvent &e) override;
-  void addObj(Object &&o);
+  void addObj(ObjectPtr o);
   void display();
 };
 
-class Scene::Object : Event::Handler {
+class Scene::Object : public Event::Handler {
 public:
-  void draw();
+  virtual void draw() = 0;
+};
+
+class SolidObject : public Scene::Object {
+  mesh m;
+
+public:
+  SolidObject(mesh &&m);
+  void draw() override;
 };

@@ -16,9 +16,6 @@
 #include <iostream>
 #include <memory>
 
-int screenWidth = 600;
-int screenHeight = 300;
-
 struct choice {
   enum value {
     TETRAHEDRON = 1,
@@ -85,19 +82,26 @@ void drawAxis() {
 
 Scene scene;
 
-int main(int argc, const char **argv) {
-  //	cout << "1. Tetrahedron" << endl;
-  //	cout << "2. Cube" << endl;
-  //	cout << "Input the choice: " << endl;
-  //	cin  >> nChoice;
+int main(int argc, char **argv) {
+  glutInit(&argc, argv);
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+  glutInitWindowSize(600, 300);
+  glutInitWindowPosition(100, 100);
+  glutCreateWindow("Lab 2");
 
-  glutInit(&argc, (char **)argv); // initialize the tool kit
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB |
-                      GLUT_DEPTH);               // set the display mode
-  glutInitWindowSize(screenWidth, screenHeight); // set window size
-  glutInitWindowPosition(100, 100); // set window position on screen
-  glutCreateWindow("Lab 2");        // open the screen window
+  float fHalfSize = 4;
+
+  glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+  glFrontFace(GL_CCW);
+  glEnable(GL_DEPTH_TEST);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(-fHalfSize, fHalfSize, -fHalfSize, fHalfSize, -1000, 1000);
+
   glutReshapeFunc([](int w, int h) {
+    std::cout << "Resize " << w << " " << h << std::endl;
     // handle window resize
     scene.handleReshape(ReshapeEvent(w, h));
   });
@@ -106,12 +110,16 @@ int main(int argc, const char **argv) {
     scene.handleKeyboard(KeyboardEvent(key, x, y));
   });
   glutDisplayFunc([]() {
+    std::cout << "Display" << std::endl;
     // handle draw callback
     scene.display();
     // information about double buffer is in the function so we swap buffer
     // here. no need to import glut inside the lib, too
     glutSwapBuffers();
   });
+
+  scene.addObj(std::make_unique<SolidObject>(cube(2)));
+
   glutMainLoop();
   return 0;
 }
