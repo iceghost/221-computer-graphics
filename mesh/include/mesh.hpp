@@ -28,3 +28,57 @@ public:
 
   static Color3 color(int i);
 };
+
+class tetrahedron : public mesh {
+public:
+  tetrahedron();
+};
+
+class cuboid : public mesh {
+  float dx, dy, dz;
+
+public:
+  cuboid(float dx, float dy, float dz);
+};
+
+class cube : public mesh {
+  float size;
+
+public:
+  cube(float size);
+};
+
+class cylinder : public mesh {
+  int nSegments;
+  float height, radius;
+
+public:
+  cylinder(int nSegments, float height, float radius);
+};
+
+class hollow_cylinder : public mesh {
+public:
+  hollow_cylinder(int nSegment, float height, float outradius, float inradius);
+};
+
+class pointed_cylinder : public mesh {
+public:
+  pointed_cylinder(int n_segments, float height, float radius,
+                   float tip_height);
+};
+
+class tbox : public mesh {
+public:
+  tbox(float dx, float dy, float dz, float width, float depth);
+};
+
+class ubox : public mesh {
+public:
+  ubox(float dx, float dy, float dz, float width, float depth);
+};
+
+class hollow_box : public mesh {
+public:
+  hollow_box(int n_segments, float dx, float dy, float dz, float hole_dx,
+             float hole_dz);
+};

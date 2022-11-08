@@ -1,4 +1,4 @@
-#include "ubox.hpp"
+#include "mesh.hpp"
 
 ubox::ubox(float dx, float dy, float dz, float width, float depth)
     : mesh(16, 14) {

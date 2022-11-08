@@ -1,5 +1,4 @@
-#include "pointed_cylinder.hpp"
-#include "cylinder.hpp"
+#include "mesh.hpp"
 
 pointed_cylinder::pointed_cylinder(int n, float h, float r, float t)
     : mesh(cylinder(n, h, r)) {

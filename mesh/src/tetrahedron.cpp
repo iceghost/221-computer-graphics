@@ -1,4 +1,4 @@
-#include "tetrahedron.hpp"
+#include "mesh.hpp"
 
 tetrahedron::tetrahedron() : mesh(4, 4) {
   this->verts = {{0, 0, 0}, {1, 0, 0}, {0, 2, 0}, {0, 0, 3}};

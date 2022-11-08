@@ -1,4 +1,4 @@
-#include "cylinder.hpp"
+#include "mesh.hpp"
 #include <cmath>
 
 cylinder::cylinder(int n, float h, float r)
