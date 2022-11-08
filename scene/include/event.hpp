@@ -1,38 +1,38 @@
 #pragma once
 
-class Event {
+class event {
 public:
-  class Handler;
+  class handler;
 
 protected:
-  virtual void accept(Handler &h) const = 0;
+  virtual void accept(handler &h) const = 0;
 };
 
-class MouseEvent : Event {
-  void accept(Handler &h) const override;
+class mouse_event : event {
+  void accept(handler &h) const override;
 };
 
-struct KeyboardEvent : Event {
+struct keyboard_event : event {
   unsigned char key;
   int x, y;
-  KeyboardEvent(unsigned char key, int x, int y);
+  keyboard_event(unsigned char key, int x, int y);
 
 private:
-  void accept(Handler &h) const override;
+  void accept(handler &h) const override;
 };
 
-struct ReshapeEvent : Event {
+struct reshape_event : event {
   int w, h;
-  ReshapeEvent(int w, int h);
+  reshape_event(int w, int h);
 
 private:
-  void accept(Handler &h) const override;
+  void accept(handler &h) const override;
 };
 
 // use of visitor pattern
-struct Event::Handler {
-  void handle(const Event &e);
-  virtual void handleMouse(const MouseEvent &e) {}
-  virtual void handleKeyboard(const KeyboardEvent &e) {}
-  virtual void handleReshape(const ReshapeEvent &e) {}
+struct event::handler {
+  void handle(const event &e);
+  virtual void handle_mouse(const mouse_event &e) {}
+  virtual void handle_keyboard(const keyboard_event &e) {}
+  virtual void handle_reshape(const reshape_event &e) {}
 };

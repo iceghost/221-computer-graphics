@@ -1,19 +1,19 @@
 #include "event.hpp"
 
-void Event::Handler::handle(const Event &e) { return e.accept(*this); }
+void event::handler::handle(const event &e) { return e.accept(*this); }
 
-void MouseEvent::accept(Event::Handler &h) const {
-  return h.handleMouse(*this);
+void mouse_event::accept(event::handler &h) const {
+  return h.handle_mouse(*this);
 }
 
-KeyboardEvent::KeyboardEvent(unsigned char key, int x, int y) {}
+keyboard_event::keyboard_event(unsigned char key, int x, int y) {}
 
-void KeyboardEvent::accept(Event::Handler &h) const {
-  return h.handleKeyboard(*this);
+void keyboard_event::accept(event::handler &h) const {
+  return h.handle_keyboard(*this);
 }
 
-ReshapeEvent::ReshapeEvent(int w, int h) {}
+reshape_event::reshape_event(int w, int h) {}
 
-void ReshapeEvent::accept(Event::Handler &h) const {
-  return h.handleReshape(*this);
+void reshape_event::accept(event::handler &h) const {
+  return h.handle_reshape(*this);
 }

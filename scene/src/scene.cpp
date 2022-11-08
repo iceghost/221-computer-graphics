@@ -23,7 +23,7 @@ void Scene::display() {
   glFlush();
 }
 
-void Scene::handleReshape(const ReshapeEvent &e) {
+void Scene::handle_reshape(const reshape_event &e) {
   this->w = e.w;
   this->h = e.h;
   glViewport(0, 0, this->w, this->h);

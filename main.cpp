@@ -103,11 +103,11 @@ int main(int argc, char **argv) {
   glutReshapeFunc([](int w, int h) {
     std::cout << "Resize " << w << " " << h << std::endl;
     // handle window resize
-    scene.handleReshape(ReshapeEvent(w, h));
+    scene.handle_reshape(reshape_event(w, h));
   });
   glutKeyboardFunc([](unsigned char key, int x, int y) {
     //
-    scene.handleKeyboard(KeyboardEvent(key, x, y));
+    scene.handle_keyboard(keyboard_event(key, x, y));
   });
   glutDisplayFunc([]() {
     std::cout << "Display" << std::endl;

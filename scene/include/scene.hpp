@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-class Scene final : public Event::Handler {
+class Scene final : public event::handler {
 public:
   class Object;
 
@@ -16,12 +16,12 @@ private:
 
 public:
   Scene();
-  void handleReshape(const ReshapeEvent &e) override;
+  void handle_reshape(const reshape_event &e) override;
   void addObj(ObjectPtr o);
   void display();
 };
 
-class Scene::Object : public Event::Handler {
+class Scene::Object : public event::handler {
 public:
   virtual void draw() = 0;
 };
