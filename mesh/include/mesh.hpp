@@ -22,9 +22,11 @@ public:
 
 public:
   mesh(int nVerts, int nQuads);
+  mesh(mesh &&);
 
   void draw_wireframe();
   void draw_color();
+  void draw();
 
   static Color3 color(int i);
 };

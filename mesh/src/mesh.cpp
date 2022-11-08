@@ -24,6 +24,19 @@ mesh::mesh(int nVerts, int nFaces) {
   this->quads.reserve(nFaces);
 }
 
+mesh::mesh(mesh &&m) : verts(std::move(m.verts)), quads(std::move(m.quads)) {}
+
+void mesh::draw() {
+  for (auto &face : this->quads) {
+    glBegin(GL_POLYGON);
+    for (auto vertId : face.vertIds) {
+      auto &vert = verts[vertId];
+      glVertex3f(vert.x, vert.y, vert.z);
+    }
+    glEnd();
+  }
+}
+
 void mesh::draw_wireframe() {
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   for (auto &face : this->quads) {
