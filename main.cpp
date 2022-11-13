@@ -24,42 +24,42 @@ struct choice {
   value v;
   choice() : v(value::HOLLOW_BOX) {}
   choice(int ivalue) : v(value(ivalue)) {}
-  std::unique_ptr<mesh> getMesh() {
-    mesh *ptr;
+  std::unique_ptr<Mesh> getMesh() {
+    Mesh *ptr;
     switch (this->v) {
     case TETRAHEDRON:
-      ptr = new tetrahedron();
+      ptr = new Tetrahedron();
       break;
     case CUBE:
-      ptr = new cube(1);
+      ptr = new Cube(1);
       break;
     case CUBOID:
-      ptr = new cuboid(1, 2, 3);
+      ptr = new Cuboid(1, 2, 3);
       break;
     case CYLINDER:
-      ptr = new cylinder(3, 2, 1);
+      ptr = new Cylinder(3, 2, 1);
       break;
     case HOLLOW_CYLINDER:
-      ptr = new hollow_cylinder(100, 5, 2, 1);
+      ptr = new HollowCylinder(100, 5, 2, 1);
       break;
     case UBOX:
-      ptr = new ubox(2, 1, 5, 1, 0.5);
+      ptr = new UBox(2, 1, 5, 1, 0.5);
       break;
     case TBOX:
-      ptr = new tbox(2, 1, 5, 1, 0.5);
+      ptr = new TBox(2, 1, 5, 1, 0.5);
       break;
     case POINTED_CYLINDER:
-      ptr = new pointed_cylinder(10, 2, 1, 1);
+      ptr = new PointedCylinder(10, 2, 1, 1);
       break;
     case HOLLOW_BOX:
-      ptr = new hollow_box(20, 2, 1, 5, 1, 4);
+      ptr = new HollowBox(20, 2, 1, 5, 1, 4);
       break;
     }
-    return std::unique_ptr<mesh>(ptr);
+    return std::unique_ptr<Mesh>(ptr);
   }
 };
 
-scene scene;
+Scene scene;
 
 int main(int argc, char **argv) {
   glutInit(&argc, argv);
@@ -82,11 +82,11 @@ int main(int argc, char **argv) {
   glutReshapeFunc([](int w, int h) {
     std::cout << "Resize " << w << " " << h << std::endl;
     // handle window resize
-    scene.handle_reshape(reshape_event(w, h));
+    scene.handle_reshape(ReshapeEvent(w, h));
   });
   glutKeyboardFunc([](unsigned char key, int x, int y) {
     //
-    scene.handle_keyboard(keyboard_event(key, x, y));
+    scene.handle_keyboard(KeyboardEvent(key, x, y));
   });
   glutDisplayFunc([]() {
     std::cout << "Display" << std::endl;
@@ -96,8 +96,8 @@ int main(int argc, char **argv) {
     // here. no need to import glut inside the lib, too
     glutSwapBuffers();
   });
-  scene.add_obj(std::make_unique<camera>());
-  scene.add_obj(std::make_unique<solid_object>(cube(1)));
+  scene.add_obj(std::make_unique<Camera>());
+  scene.add_obj(std::make_unique<SolidObject>(Cube(1)));
   glutMainLoop();
   return 0;
 }

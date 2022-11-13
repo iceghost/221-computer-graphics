@@ -5,11 +5,11 @@
 #include <cmath>
 #include <memory>
 
-scene::scene() {}
+Scene::Scene() {}
 
-void scene::add_obj(scene::object_ptr o) { this->objs.push_back(std::move(o)); }
+void Scene::add_obj(Scene::ObjectPtr o) { this->objs.push_back(std::move(o)); }
 
-void scene::display() {
+void Scene::display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glColor3f(0, 0, 0);
@@ -23,13 +23,13 @@ void scene::display() {
   glFlush();
 }
 
-void scene::handle_reshape(const reshape_event &e) {
+void Scene::handle_reshape(const ReshapeEvent &e) {
   this->w = e.w;
   this->h = e.h;
   glViewport(0, 0, this->w, this->h);
 }
 
-void scene::draw_axis() {
+void Scene::draw_axis() {
   glColor3f(0, 0, 1);
   glBegin(GL_LINES);
   glVertex3f(0, 0, 0);
@@ -43,14 +43,14 @@ void scene::draw_axis() {
   glEnd();
 }
 
-scene::object::object() : pos(0, 0, 0) {}
-scene::object::object(Vector3 pos) : pos(pos) {}
+Scene::Object::Object() : pos(0, 0, 0) {}
+Scene::Object::Object(Vector3 pos) : pos(pos) {}
 
-solid_object::solid_object(mesh &&m) : m(std::move(m)) {}
-void solid_object::draw(const scene &) { m.draw(); }
+SolidObject::SolidObject(Mesh &&m) : m(std::move(m)) {}
+void SolidObject::draw(const Scene &) { m.draw(); }
 
-camera::camera() {}
-void camera::draw(const scene &scene) {
+Camera::Camera() {}
+void Camera::draw(const Scene &scene) {
   // the camera will revolve a sphere centered at world (0, 0, 0) with RADIUS.
   // its viewing volume is the cube inscribed in the sphere
   const float RADIUS = 4.0;

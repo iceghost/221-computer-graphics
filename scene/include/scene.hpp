@@ -6,45 +6,45 @@
 #include <memory>
 #include <vector>
 
-class scene final : public event::handler {
+class Scene final : public Event::Handler {
 public:
-  class object;
+  class Object;
 
 private:
-  using object_ptr = std::unique_ptr<object>;
-  std::vector<object_ptr> objs;
+  using ObjectPtr = std::unique_ptr<Object>;
+  std::vector<ObjectPtr> objs;
 
 public:
   int w, h;
-  scene();
-  void handle_reshape(const reshape_event &e) override;
-  void add_obj(object_ptr o);
+  Scene();
+  void handle_reshape(const ReshapeEvent &e) override;
+  void add_obj(ObjectPtr o);
   void display();
   void draw_axis();
 };
 
-class scene::object : public event::handler {
+class Scene::Object : public Event::Handler {
 protected:
   Vector3 pos;
 
 public:
-  object();
-  object(Vector3 pos);
-  virtual ~object() = default;
+  Object();
+  Object(Vector3 pos);
+  virtual ~Object() = default;
   // Draw itself in local coordinate system
-  virtual void draw(const scene &) = 0;
+  virtual void draw(const Scene &) = 0;
 };
 
-class solid_object : public scene::object {
-  mesh m;
+class SolidObject : public Scene::Object {
+  Mesh m;
 
 public:
-  solid_object(mesh &&m);
-  void draw(const scene &) override;
+  SolidObject(Mesh &&m);
+  void draw(const Scene &) override;
 };
 
-class camera : public scene::object {
+class Camera : public Scene::Object {
 public:
-  camera();
-  void draw(const scene &) override;
+  Camera();
+  void draw(const Scene &) override;
 };

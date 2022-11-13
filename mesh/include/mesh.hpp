@@ -4,25 +4,25 @@
 #include "point3.hpp"
 #include <array>
 
-class mesh {
+class Mesh {
 protected:
-  struct quad {
+  struct Quad {
     std::array<int, 4> vertIds;
     std::array<int, 4> colorIds;
-    quad(std::array<int, 4> vertIds, int colorId);
-    static quad from_triangle(std::array<int, 3> vertIds, int colorId);
+    Quad(std::array<int, 4> vertIds, int colorId);
+    static Quad from_triangle(std::array<int, 3> vertIds, int colorId);
   };
 
 protected:
-  std::vector<point3> verts;
-  std::vector<quad> quads;
+  std::vector<Point3> verts;
+  std::vector<Quad> quads;
 
 public:
   static const Color3 COLORS[];
 
 public:
-  mesh(int nVerts, int nQuads);
-  mesh(mesh &&);
+  Mesh(int nVerts, int nQuads);
+  Mesh(Mesh &&);
 
   void draw_wireframe();
   void draw_color();
@@ -31,56 +31,55 @@ public:
   static Color3 color(int i);
 };
 
-class tetrahedron : public mesh {
+class Tetrahedron : public Mesh {
 public:
-  tetrahedron();
+  Tetrahedron();
 };
 
-class cuboid : public mesh {
+class Cuboid : public Mesh {
   float dx, dy, dz;
 
 public:
-  cuboid(float dx, float dy, float dz);
+  Cuboid(float dx, float dy, float dz);
 };
 
-class cube : public mesh {
+class Cube : public Mesh {
   float size;
 
 public:
-  cube(float size);
+  Cube(float size);
 };
 
-class cylinder : public mesh {
+class Cylinder : public Mesh {
   int nSegments;
   float height, radius;
 
 public:
-  cylinder(int nSegments, float height, float radius);
+  Cylinder(int nSegments, float height, float radius);
 };
 
-class hollow_cylinder : public mesh {
+class HollowCylinder : public Mesh {
 public:
-  hollow_cylinder(int nSegment, float height, float outradius, float inradius);
+  HollowCylinder(int nSegment, float height, float outradius, float inradius);
 };
 
-class pointed_cylinder : public mesh {
+class PointedCylinder : public Mesh {
 public:
-  pointed_cylinder(int n_segments, float height, float radius,
-                   float tip_height);
+  PointedCylinder(int n_segments, float height, float radius, float tip_height);
 };
 
-class tbox : public mesh {
+class TBox : public Mesh {
 public:
-  tbox(float dx, float dy, float dz, float width, float depth);
+  TBox(float dx, float dy, float dz, float width, float depth);
 };
 
-class ubox : public mesh {
+class UBox : public Mesh {
 public:
-  ubox(float dx, float dy, float dz, float width, float depth);
+  UBox(float dx, float dy, float dz, float width, float depth);
 };
 
-class hollow_box : public mesh {
+class HollowBox : public Mesh {
 public:
-  hollow_box(int n_segments, float dx, float dy, float dz, float hole_dx,
-             float hole_dz);
+  HollowBox(int n_segments, float dx, float dy, float dz, float hole_dx,
+            float hole_dz);
 };

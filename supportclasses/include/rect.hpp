@@ -7,8 +7,8 @@ private:
 public:
   Rect(T left, T right, T bottom, T top);
   void draw();
-  T getWidth();
-  T getHeight();
+  T get_width();
+  T get_height();
 };
 
 using IntRect = Rect<int>;

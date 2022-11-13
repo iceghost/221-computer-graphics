@@ -9,11 +9,11 @@ template <typename T>
 Rect<T>::Rect(T left, T right, T bottom, T top)
     : l(left), r(right), b(bottom), t(top) {}
 
-template <typename T> T Rect<T>::getWidth() {
+template <typename T> T Rect<T>::get_width() {
   return std::abs(this->r - this->l);
 }
 
-template <typename T> T Rect<T>::getHeight() {
+template <typename T> T Rect<T>::get_height() {
   return std::abs(this->t - this->b);
 }
 
