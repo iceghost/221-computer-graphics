@@ -1,7 +1,7 @@
 #include "mesh.hpp"
 
-ubox::ubox(float dx, float dy, float dz, float width, float depth)
-    : mesh(16, 14) {
+UBox::UBox(float dx, float dy, float dz, float width, float depth)
+    : Mesh(16, 14) {
   float hdx = dx / 2, hdy = dy / 2, hdz = dz / 2, hw = width / 2;
   this->verts = {// big box
                  {-hdx, hdy, hdz},
@@ -23,15 +23,15 @@ ubox::ubox(float dx, float dy, float dz, float width, float depth)
                  {-hw, hdy - depth, -hdz}};
 
   this->quads = {// +y face
-                 mesh::quad({0, 8, 11, 3}, 0), mesh::quad({11, 10, 2, 3}, 1),
-                 mesh::quad({9, 1, 2, 10}, 2),
+                 Mesh::Quad({0, 8, 11, 3}, 0), Mesh::Quad({11, 10, 2, 3}, 1),
+                 Mesh::Quad({9, 1, 2, 10}, 2),
                  // -y face
-                 mesh::quad({4, 12, 15, 7}, 3), mesh::quad({15, 14, 6, 7}, 4),
-                 mesh::quad({13, 5, 6, 14}, 5)};
+                 Mesh::Quad({4, 12, 15, 7}, 3), Mesh::Quad({15, 14, 6, 7}, 4),
+                 Mesh::Quad({13, 5, 6, 14}, 5)};
   int cid = 6;
   auto outline = {0, 8, 11, 10, 9, 1, 2, 3, 0};
   for (auto o = outline.begin(); o < outline.end() - 1; o++) {
     this->quads.push_back(
-        mesh::quad({*o, *(o + 1), *(o + 1) + 4, *o + 4}, cid++));
+        Mesh::Quad({*o, *(o + 1), *(o + 1) + 4, *o + 4}, cid++));
   }
 }

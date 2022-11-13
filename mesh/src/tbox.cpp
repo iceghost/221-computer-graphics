@@ -1,6 +1,6 @@
 #include "mesh.hpp"
 
-tbox::tbox(float dx, float dy, float dz, float w, float depth) : mesh(16, 12) {
+TBox::TBox(float dx, float dy, float dz, float w, float depth) : Mesh(16, 12) {
   float hdx = dx / 2, hdy = dy / 2, hdz = dz / 2, hw = w / 2;
   this->verts = {// big box
                  {-hdx, hdy - depth, hdz},
@@ -22,13 +22,13 @@ tbox::tbox(float dx, float dy, float dz, float w, float depth) : mesh(16, 12) {
                  {-hw, hdy - depth, -hdz}};
 
   this->quads = {// +y face
-                 mesh::quad({0, 1, 2, 3}, 0), mesh::quad({8, 9, 10, 11}, 1),
+                 Mesh::Quad({0, 1, 2, 3}, 0), Mesh::Quad({8, 9, 10, 11}, 1),
                  // -y face
-                 mesh::quad({4, 5, 6, 7}, 2), mesh::quad({12, 13, 14, 15}, 3)};
+                 Mesh::Quad({4, 5, 6, 7}, 2), Mesh::Quad({12, 13, 14, 15}, 3)};
   int cid = 4;
   auto outline = {0, 11, 8, 9, 10, 1, 2, 3, 0};
   for (auto o = outline.begin(); o < outline.end() - 1; o++) {
     this->quads.push_back(
-        mesh::quad({*o, *(o + 1), *(o + 1) + 4, *o + 4}, cid++));
+        Mesh::Quad({*o, *(o + 1), *(o + 1) + 4, *o + 4}, cid++));
   }
 }
