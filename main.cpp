@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "mesh.hpp"
+#include "scene.hpp"
 
 int screenWidth = 600;
 int screenHeight = 300;
@@ -89,7 +90,7 @@ void myDisplay() {
   drawAxis();
 
   glColor3f(0, 0, 0);
-  auto m = choice().getMesh();
+  auto m = choice(choice::value::CYLINDER).getMesh();
   m->draw_wireframe();
   glViewport(screenWidth / 2, 0, screenWidth / 2, screenHeight);
   drawAxis();
@@ -123,7 +124,7 @@ int main(int argc, const char **argv) {
                       GLUT_DEPTH);               // set the display mode
   glutInitWindowSize(screenWidth, screenHeight); // set window size
   glutInitWindowPosition(100, 100); // set window position on screen
-  glutCreateWindow("Lab 2");        // open the screen window
+  glutCreateWindow("Nguyen Duy Khang - 2011364");        // open the screen window
 
   myInit();
   glutDisplayFunc(myDisplay);

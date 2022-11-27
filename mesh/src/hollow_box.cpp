@@ -6,7 +6,7 @@ HollowBox::HollowBox(int n, float dx, float dy, float dz, float in_dx,
                      float in_dz)
     : Mesh(16 + (n - 1) * 8, 16 + (n - 1) * 6) {
   float hdx = dx / 2.0f, hdy = dy / 2.0f, hdz = dz / 2.0f, in_hdz = in_dz / 2,
-        r = in_dx / 2, angle = M_PI / n;
+        r = in_dx / 2, angle = float(M_PI) / n;
 
   for (int i = 0; i <= n; i++) {
     this->verts.push_back({-hdx + i * dx / n, hdy, hdz});

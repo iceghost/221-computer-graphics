@@ -2,8 +2,9 @@
   "configurations": [
     {
       "name": "CMake",
-      "configurationProvider": "ms-vscode.cmake-tools",
-      "compileCommands": "${config:cmake.buildDirectory}/compile_commands.json"
+      "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+      "intelliSenseMode": "windows-msvc-x64",
+      "configurationProvider": "ms-vscode.cmake-tools"
     }
   ],
   "version": 4
