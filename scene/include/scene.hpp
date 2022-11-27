@@ -15,9 +15,10 @@ private:
   std::vector<ObjectPtr> objs;
 
 public:
-  int w, h;
   Scene();
   void handle_reshape(const ReshapeEvent &e) override;
+  void handle_mouse_button(const MouseButtonEvent &e) override;
+  void handle_mouse_drag(const MouseDragEvent &e) override;
   void add_obj(ObjectPtr o);
   void display();
   void draw_axis();
@@ -25,14 +26,14 @@ public:
 
 class Scene::Object : public Event::Handler {
 protected:
-  Vector3 pos;
+  Point3 pos;
 
 public:
   Object();
-  Object(Vector3 pos);
+  Object(Point3 pos);
   virtual ~Object() = default;
   // Draw itself in local coordinate system
-  virtual void draw(const Scene &) = 0;
+  virtual void draw() = 0;
 };
 
 class SolidObject : public Scene::Object {
@@ -40,11 +41,17 @@ class SolidObject : public Scene::Object {
 
 public:
   SolidObject(Mesh &&m);
-  void draw(const Scene &) override;
+  void draw() override;
 };
 
 class Camera : public Scene::Object {
+  int prevX, prevY;
+  int screenW, screenH;
+
 public:
   Camera();
-  void draw(const Scene &) override;
+  void draw() override;
+  void handle_reshape(const ReshapeEvent &e) override;
+  void handle_mouse_button(const MouseButtonEvent &e) override;
+  void handle_mouse_drag(const MouseDragEvent &e) override;
 };

@@ -1,3 +1,4 @@
+#include <GL/freeglut_std.h>
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -5,59 +6,8 @@
 #include "mesh.hpp"
 #include "scene.hpp"
 #include <GL/glut.h>
-#include <cmath>
 #include <iostream>
 #include <memory>
-
-struct choice {
-  enum value {
-    TETRAHEDRON = 1,
-    CUBE = 2,
-    CUBOID = 3,
-    CYLINDER = 4,
-    HOLLOW_CYLINDER = 5,
-    UBOX = 6,
-    TBOX = 7,
-    POINTED_CYLINDER = 8,
-    HOLLOW_BOX = 9,
-  };
-  value v;
-  choice() : v(value::HOLLOW_BOX) {}
-  choice(int ivalue) : v(value(ivalue)) {}
-  std::unique_ptr<Mesh> getMesh() {
-    Mesh *ptr;
-    switch (this->v) {
-    case TETRAHEDRON:
-      ptr = new Tetrahedron();
-      break;
-    case CUBE:
-      ptr = new Cube(1);
-      break;
-    case CUBOID:
-      ptr = new Cuboid(1, 2, 3);
-      break;
-    case CYLINDER:
-      ptr = new Cylinder(3, 2, 1);
-      break;
-    case HOLLOW_CYLINDER:
-      ptr = new HollowCylinder(100, 5, 2, 1);
-      break;
-    case UBOX:
-      ptr = new UBox(2, 1, 5, 1, 0.5);
-      break;
-    case TBOX:
-      ptr = new TBox(2, 1, 5, 1, 0.5);
-      break;
-    case POINTED_CYLINDER:
-      ptr = new PointedCylinder(10, 2, 1, 1);
-      break;
-    case HOLLOW_BOX:
-      ptr = new HollowBox(20, 2, 1, 5, 1, 4);
-      break;
-    }
-    return std::unique_ptr<Mesh>(ptr);
-  }
-};
 
 Scene scene;
 
@@ -80,7 +30,6 @@ int main(int argc, char **argv) {
   glOrtho(-fHalfSize, fHalfSize, -fHalfSize, fHalfSize, -1000, 1000);
 
   glutReshapeFunc([](int w, int h) {
-    std::cout << "Resize " << w << " " << h << std::endl;
     // handle window resize
     scene.handle_reshape(ReshapeEvent(w, h));
   });
@@ -88,8 +37,17 @@ int main(int argc, char **argv) {
     //
     scene.handle_keyboard(KeyboardEvent(key, x, y));
   });
+  glutMouseFunc([](int button, int state, int x, int y) {
+    // on mouse click
+    scene.handle_mouse_button(
+        MouseButtonEvent(button == GLUT_LEFT_BUTTON, state == GLUT_DOWN, x, y));
+  });
+  glutMotionFunc([](int x, int y) {
+    // on mouse click and move
+    scene.handle_mouse_drag(MouseDragEvent(x, y));
+    glutPostRedisplay();
+  });
   glutDisplayFunc([]() {
-    std::cout << "Display" << std::endl;
     // handle draw callback
     scene.display();
     // information about double buffer is in the function so we swap buffer

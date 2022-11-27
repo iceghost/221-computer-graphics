@@ -2,8 +2,17 @@
 
 void Event::Handler::handle(const Event &e) { return e.accept(*this); }
 
-void MouseEvent::accept(Event::Handler &h) const {
-  return h.handle_mouse(*this);
+MouseButtonEvent::MouseButtonEvent(bool left, bool down, int x, int y)
+    : left(left), down(down), x(x), y(y) {}
+
+void MouseButtonEvent::accept(Event::Handler &h) const {
+  return h.handle_mouse_button(*this);
+}
+
+MouseDragEvent::MouseDragEvent(int x, int y) : x(x), y(y) {}
+
+void MouseDragEvent::accept(Event::Handler &h) const {
+  return h.handle_mouse_drag(*this);
 }
 
 KeyboardEvent::KeyboardEvent(unsigned char key, int x, int y)
