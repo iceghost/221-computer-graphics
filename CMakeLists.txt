@@ -5,6 +5,7 @@ set(CXX_STANDARD 11)
 set(CXX_STANDARD_REQUIRED TRUE)
 
 IF(MSVC)
+  add_compile_options(/W4 /WX)
   add_definitions(-D_USE_MATH_DEFINES)
 ENDIF()
 

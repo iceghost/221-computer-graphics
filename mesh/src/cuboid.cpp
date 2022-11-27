@@ -2,7 +2,7 @@
 
 cuboid::cuboid(float dx, float dy, float dz)
     : dx(dx), dy(dy), dz(dz), mesh(8, 6) {
-  float hdx = dx / 2.0, hdy = dy / 2.0, hdz = dz / 2.0;
+  float hdx = dx / 2.0f, hdy = dy / 2.0f, hdz = dz / 2.0f;
   this->verts = {{-hdx, hdy, hdz},  {hdx, hdy, hdz},   {hdx, hdy, -hdz},
                  {-hdx, hdy, -hdz}, {-hdx, -hdy, hdz}, {hdx, -hdy, hdz},
                  {hdx, -hdy, -hdz}, {-hdx, -hdy, -hdz}};

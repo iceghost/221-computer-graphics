@@ -3,7 +3,7 @@
 
 cylinder::cylinder(int n, float h, float r)
     : nSegments(n), height(h), radius(r), mesh(2 * n + 2, n * 3) {
-  float a = 2 * M_PI / n;
+  float a = 2 * float(M_PI) / n;
 
   // top, topcirc, topcirc, topcirc, ..., bottomcirc, bottomcirc, bottom
 

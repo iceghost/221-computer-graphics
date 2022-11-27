@@ -3,7 +3,7 @@
 
 hollow_cylinder::hollow_cylinder(int n, float h, float R, float r)
     : mesh(n * 4, n * 4) {
-  float angle = 2 * M_PI / n;
+  float angle = 2 * float(M_PI) / n;
   for (int i = 0; i < n; i++) {
     this->verts.push_back(
         {r * std::cos(angle * i), h / 2, r * std::sin(angle * i)});

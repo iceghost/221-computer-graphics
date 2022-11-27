@@ -64,6 +64,8 @@ struct choice {
     case HOLLOW_BOX:
       ptr = new hollow_box(20, 2, 1, 5, 1, 4);
       break;
+    default:
+      throw "unreachable";
     }
     return std::unique_ptr<mesh>(ptr);
   }
@@ -132,7 +134,7 @@ int main(int argc, const char **argv) {
 
   myInit();
   glutDisplayFunc(myDisplay);
-  glutKeyboardFunc([](unsigned char key, int x, int y) {
+  glutKeyboardFunc([](unsigned char key, int, int) {
     std::cout << "Got key: " << key << std::endl;
     if (key == GLUT_KEY_F4) {
       exit(0);
