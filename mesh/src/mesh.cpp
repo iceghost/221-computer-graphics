@@ -1,23 +1,22 @@
-#include "mesh.hpp"
-#include "color3.hpp"
 #ifdef _WIN32
 #include <windows.h>
 #endif
+#include "mesh.hpp"
 #include <GL/gl.h>
 #include <cmath>
 
-const Color3 Mesh::COLORS[] = {
-    {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f},
-    {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 1.0f},
-    {0.3f, 0.3f, 0.3f}, {0.5f, 0.5f, 0.5f}, {0.9f, 0.9f, 0.9f},
-    {1.0f, 0.5f, 0.5f}, {0.5f, 1.0f, 0.5f}, {0.5f, 0.5f, 1.0f},
-    {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}};
+// const Color3 Mesh::COLORS[] = {
+//     {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f},
+//     {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 1.0f},
+//     {0.3f, 0.3f, 0.3f}, {0.5f, 0.5f, 0.5f}, {0.9f, 0.9f, 0.9f},
+//     {1.0f, 0.5f, 0.5f}, {0.5f, 1.0f, 0.5f}, {0.5f, 0.5f, 1.0f},
+//     {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}};
 
-Mesh::Quad::Quad(std::array<int, 4> vertIds, int colorId)
-    : vertIds(vertIds), colorIds({colorId, colorId, colorId, colorId}) {}
+Mesh::Quad::Quad(std::array<int, 4> vertIds, int normId)
+    : vertIds(vertIds), normIds({normId, normId, normId, normId}) {}
 
-Mesh::Quad Mesh::Quad::from_triangle(std::array<int, 3> vids, int colorId) {
-  return Quad({vids[0], vids[0], vids[1], vids[2]}, colorId);
+Mesh::Quad Mesh::Quad::from_triangle(std::array<int, 3> vids, int normId) {
+  return Quad({vids[0], vids[0], vids[1], vids[2]}, normId);
 }
 
 Mesh::Mesh(int nVerts, int nFaces) {
@@ -53,10 +52,9 @@ void Mesh::draw() {
   for (auto &face : quads) {
     glBegin(GL_POLYGON);
     for (int i = 0; i < face.vertIds.size(); i++) {
-      auto &vert = verts[face.vertIds[i]];
-      auto &color = Mesh::COLORS[face.colorIds[i] %
-                                 (sizeof(Mesh::COLORS) / sizeof(Color3))];
-      glColor3f(color.r, color.g, color.b);
+      auto vert = verts[face.vertIds[i]];
+      auto norm = norms[face.normIds[i]];
+      glNormal3f(norm.dx, norm.dy, norm.dz);
       glVertex3f(vert.x, vert.y, vert.z);
     }
     glEnd();

@@ -1,7 +1,6 @@
 #pragma once
 
-class Vector3 {
-public:
+struct Vector3 {
   float dx, dy, dz;
   Vector3(float dx, float dy, float dz);
   Vector3();

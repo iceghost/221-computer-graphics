@@ -7,10 +7,13 @@ Cuboid::Cuboid(float dx, float dy, float dz)
                  {-hdx, hdy, -hdz}, {-hdx, -hdy, hdz}, {hdx, -hdy, hdz},
                  {hdx, -hdy, -hdz}, {-hdx, -hdy, -hdz}};
 
+  this->norms = {{1, 0, 0},  {-1, 0, 0}, {0, 1, 0},
+                 {0, -1, 0}, {0, 0, 1},  {0, 0, -1}};
+
   this->quads = {
-      // front face
-      Mesh::Quad({1, 5, 6, 2}, 0),
       // right face
+      Mesh::Quad({1, 5, 6, 2}, 0),
+      // left face
       Mesh::Quad({0, 3, 7, 4}, 1),
       // top face
       Mesh::Quad({0, 1, 2, 3}, 2),

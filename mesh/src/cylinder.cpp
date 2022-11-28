@@ -18,25 +18,30 @@ Cylinder::Cylinder(int n, float h, float r)
   }
   this->verts.push_back({0, -h / 2, 0});
 
-  int cid = 0;
+  this->norms.push_back({0, 1, 0});
+  for (int i = 0; i < n; i++) {
+    this->norms.push_back({std::cos(a * i), 0, std::sin(a * i)});
+  }
+  this->norms.push_back({0, -1, 0});
+
   // top face
   for (int i = 0; i < n - 1; i++) {
-    this->quads.push_back(Mesh::Quad::from_triangle({0, i + 2, i + 1}, cid++));
+    this->quads.push_back(Mesh::Quad::from_triangle({0, i + 2, i + 1}, 0));
   }
-  this->quads.push_back(Mesh::Quad::from_triangle({0, 1, n}, cid++));
+  this->quads.push_back(Mesh::Quad::from_triangle({0, 1, n}, 0));
 
   // bottom face
   for (int i = 0; i < n - 1; i++) {
     this->quads.push_back(
-        Mesh::Quad::from_triangle({2 * n + 1, i + 1 + n, i + 2 + n}, cid++));
+        Mesh::Quad::from_triangle({2 * n + 1, i + 1 + n, i + 2 + n}, n + 1));
   }
   this->quads.push_back(
-      Mesh::Quad::from_triangle({2 * n + 1, 2 * n, 1 + n}, cid++));
+      Mesh::Quad::from_triangle({2 * n + 1, 2 * n, 1 + n}, n + 1));
 
   // sides
   for (int i = 0; i < n - 1; i++) {
     this->quads.push_back(
-        Mesh::Quad({i + 1, i + 2, i + 2 + n, i + 1 + n}, cid++));
+        Mesh::Quad({i + 1, i + 2, i + 2 + n, i + 1 + n}, i + 1));
   }
-  this->quads.push_back(Mesh::Quad({n, 1, 1 + n, 2 * n}, cid++));
+  this->quads.push_back(Mesh::Quad({n, 1, 1 + n, 2 * n}, n));
 }

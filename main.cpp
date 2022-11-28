@@ -28,6 +28,8 @@ int main(int argc, const char **argv) {
   glutCreateWindow("Nguyen Duy Khang - 2011364"); // open the screen window
 
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT1);
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
   scene = std::make_unique<Scene>();

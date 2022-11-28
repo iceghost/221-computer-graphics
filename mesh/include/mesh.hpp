@@ -2,23 +2,22 @@
 
 #include "color3.hpp"
 #include "point3.hpp"
+#include "vector3.hpp"
 #include <array>
 
 class Mesh {
 protected:
   struct Quad {
     std::array<int, 4> vertIds;
-    std::array<int, 4> colorIds;
-    Quad(std::array<int, 4> vertIds, int colorId);
-    static Quad from_triangle(std::array<int, 3> vertIds, int colorId);
+    std::array<int, 4> normIds;
+    Quad(std::array<int, 4> vertIds, int normId);
+    static Quad from_triangle(std::array<int, 3> vertIds, int normId);
   };
 
 protected:
   std::vector<Point3> verts;
+  std::vector<Vector3> norms;
   std::vector<Quad> quads;
-
-public:
-  static const Color3 COLORS[];
 
 public:
   Mesh(int nVerts, int nQuads);
