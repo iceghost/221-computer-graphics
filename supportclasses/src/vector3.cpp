@@ -1,6 +1,8 @@
 #include "vector3.hpp"
 #include <cmath>
 
+Vector3::Vector3() : dx(0), dy(0), dz(0) {}
+
 Vector3::Vector3(float dx, float dy, float dz) : dx(dx), dy(dy), dz(dz) {}
 
 Vector3 Vector3::flip() { return Vector3(-dx, -dy, -dz); }
