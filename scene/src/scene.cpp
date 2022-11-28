@@ -1,50 +1,34 @@
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include "scene.hpp"
-#include "GL/glut.h"
-#include <cmath>
+#include <GL/GL.h>
+#include <GL/GLU.h>
 
-void Scene::Object::translate(Vector3 vec) {
-  this->t = vec;
-}
+Scene::Scene() : camera({45, 3, 5}) {}
 
-void Scene::Object::rotateX(double angle) {
-  this->rX = angle;
-  this->pushOrder(0);
-}
+void Scene::display() {
+  this->camera.view();
 
-void Scene::Object::rotateY(double angle) {
-  this->rY = angle;
-  this->pushOrder(1);
-}
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-void Scene::Object::rotateZ(double angle) {
-  this->rZ = angle;
-  this->pushOrder(2);
-}
+  glColor3f(0, 0, 1);
+  glBegin(GL_LINES);
+  glVertex3f(0, 0, 0);
+  glVertex3f(4, 0, 0);
 
-void Scene::Object::pushOrder(int order) {
-  auto pos = std::find(this->rOrds.begin(), this->rOrds.end(), order);
-  if (pos != this->rOrds.end()) {
-    this->rOrds.erase(pos);
+  glVertex3f(0, 0, 0);
+  glVertex3f(0, 4, 0);
+
+  glVertex3f(0, 0, 0);
+  glVertex3f(0, 0, 4);
+  glEnd();
+
+  glColor3f(0, 0, 0);
+
+  for (auto &obj : this->objs) {
+    obj.draw();
   }
-  this->rOrds.push_back(order);
-}
 
-void Scene::Object::draw_wireframe() {
-  glPushMatrix();
-  glTranslatef(this->t.dx, this->t.dy, this->t.dz);
-  for (auto ord : this->rOrds) {
-    switch (ord) {
-    case 0:
-      glRotated(this->rX, 1, 0, 0);
-      break;
-    case 1:
-      glRotated(this->rY, 0, 1, 0);
-      break;
-    case 2:
-      glRotated(this->rZ, 0, 0, 1);
-      break;
-    }
-  }
-  this->m.draw_wireframe();
-  glPopMatrix();
+  glFlush();
 }

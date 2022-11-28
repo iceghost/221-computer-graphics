@@ -3,28 +3,30 @@
 #include "mesh.hpp"
 #include "point3.hpp"
 #include "vector3.hpp"
-#include <algorithm>
 #include <vector>
 
 struct Scene {
   struct Object {
     Vector3 t;
-    double rX;
-    double rY;
-    double rZ;
-    std::vector<int> rOrds; // 0 for x, 1 for y, 2 for z
+    double r_x;
+    double r_y;
+    double r_z;
+    std::vector<int> r_ords; // 0 for x, 1 for y, 2 for z
     std::vector<Object> children;
+
+    Object(Mesh &&m);
 
     Mesh m;
 
     void translate(Vector3 vec);
-    void rotateX(double angle);
-    void rotateY(double angle);
-    void rotateZ(double angle);
+    void rotate_x(double angle);
+    void rotate_y(double angle);
+    void rotate_z(double angle);
 
-    void pushOrder(int order);
+    void push_order(int order);
+    void add_child(Object &&child);
 
-    void draw_wireframe();
+    void draw();
   };
 
   struct Camera {
@@ -34,28 +36,28 @@ struct Scene {
     double height;
     // distance from Oy
     double distance;
+    Point3 look_at;
 
-    Point3 lookAt;
+    float aspect_ratio;
+    int screen_width;
 
     void view();
+    void on_key(int key);
+  } camera;
 
-    void onKey(int key);
-  };
-};
+  enum class MoveState {
+    UP,
+    DOWN,
+    IDLE,
+  } move_state;
 
-enum class Key {
-  UP,
-  DOWN,
-  ANIMATE_ON,
-  ANIMATE_OFF,
-  WIREFRAME_ON,
-  WIREFRAME_OFF,
-  TWO_DIMENSION,
-  THREE_DIMENSION,
-  CLOSER,
-  FARTHER,
-  LOWER,
-  HIGHER,
-  ROTATE_LEFT,
-  ROTATE_RIGHT,
+  enum class AnimateState {
+    ON,
+    OFF,
+  } animate_state;
+
+  std::vector<Object> objs;
+
+  Scene();
+  void display();
 };
