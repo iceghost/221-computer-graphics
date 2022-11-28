@@ -14,12 +14,15 @@ const double DELTA_T = 1 / 60.0;
 
 std::unique_ptr<Scene> scene = nullptr;
 
-int main(int argc, const char **argv) {
-  //	cout << "1. Tetrahedron" << endl;
-  //	cout << "2. Cube" << endl;
-  //	cout << "Input the choice: " << endl;
-  //	cin  >> nChoice;
+void update(int) {
+  auto redisplay = scene->update(DELTA_T);
+  if (redisplay) {
+    glutPostRedisplay();
+  }
+  glutTimerFunc(int(1000 * DELTA_T), update, 0);
+}
 
+int main(int argc, const char **argv) {
   glutInit(&argc, (char **)argv); // initialize the tool kit
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB |
                       GLUT_DEPTH);  // set the display mode
@@ -91,22 +94,7 @@ int main(int argc, const char **argv) {
     }
   });
 
-  glutIdleFunc([]() {
-    auto redisplay = false;
-    switch (scene->move_state) {
-    case Scene::MoveState::UP:
-      scene->camera.height += 2 * DELTA_T;
-      redisplay = true;
-      break;
-    case Scene::MoveState::DOWN:
-      scene->camera.height -= 2 * DELTA_T;
-      redisplay = true;
-      break;
-    }
-    if (redisplay) {
-      glutPostRedisplay();
-    }
-  });
+  update(0);
 
   glutMainLoop();
   return 0;

@@ -32,3 +32,20 @@ void Scene::display() {
 
   glFlush();
 }
+
+boolean Scene::update(const double dt) {
+  auto redisplay = false;
+  switch (this->move_state) {
+  case Scene::MoveState::UP:
+    this->camera.height += 2 * dt;
+    redisplay = true;
+    break;
+  case Scene::MoveState::DOWN:
+    this->camera.height -= 2 * dt;
+    redisplay = true;
+    break;
+  case Scene::MoveState::IDLE:
+    break;
+  }
+  return redisplay;
+}

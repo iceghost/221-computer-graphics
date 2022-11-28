@@ -60,4 +60,5 @@ struct Scene {
 
   Scene();
   void display();
+  boolean update(const double dt);
 };
