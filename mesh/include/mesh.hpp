@@ -25,9 +25,10 @@ public:
   Mesh(Mesh &&);
 
   void draw_wireframe();
-  void draw_color();
+  void draw_solid();
 
-  static Color3 color(int i);
+protected:
+  void draw();
 };
 
 class Tetrahedron : public Mesh {

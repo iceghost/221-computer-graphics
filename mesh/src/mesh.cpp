@@ -40,18 +40,16 @@ Mesh::Mesh(Mesh &&m) : verts(std::move(m.verts)), quads(std::move(m.quads)) {}
 
 void Mesh::draw_wireframe() {
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-  for (auto &face : this->quads) {
-    glBegin(GL_POLYGON);
-    for (auto vertId : face.vertIds) {
-      auto &vert = verts[vertId];
-      glVertex3f(vert.x, vert.y, vert.z);
-    }
-    glEnd();
-  }
+  this->draw();
 }
 
-void Mesh::draw_color() {
+void Mesh::draw_solid() {
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  this->draw();
+}
+
+void Mesh::draw() {
+  // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   for (auto &face : quads) {
     glBegin(GL_POLYGON);
     for (int i = 0; i < face.vertIds.size(); i++) {
