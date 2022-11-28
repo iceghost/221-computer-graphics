@@ -29,8 +29,27 @@ int main(int argc, const char **argv) {
 
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT1);
+  glEnable(GL_LIGHT0);
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+  float myLightPosition[] = {1.0f, 1.0f, 1.0f, 0.0f};
+  glLightfv(GL_LIGHT0, GL_POSITION, myLightPosition);
+
+  float amb0[] = {0.2f, 0.4f, 0.6f, 1.0f};
+  float diff0[] = {0.8f, 0.9f, 0.5f, 1.0f};
+  float spec0[] = {1.0f, 0.8f, 1.0f, 1.0f};
+  glLightfv(GL_LIGHT0, GL_AMBIENT, amb0);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, diff0);
+  glLightfv(GL_LIGHT0, GL_SPECULAR, spec0);
+
+  float ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
+  float diffuse[] = {1.0f, 0.8f, 0.0f, 1.0f};
+  float specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+  float shine = 100.0f;
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+  glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shine);
 
   scene = std::make_unique<Scene>();
   auto obj = Scene::Object(Cuboid(5, 0.2f, 4));

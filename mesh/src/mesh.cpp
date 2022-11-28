@@ -21,10 +21,13 @@ Mesh::Quad Mesh::Quad::from_triangle(std::array<int, 3> vids, int normId) {
 
 Mesh::Mesh(int nVerts, int nFaces) {
   this->verts.reserve(nVerts);
+  this->norms.reserve(nFaces);
   this->quads.reserve(nFaces);
 }
 
-Mesh::Mesh(Mesh &&m) : verts(std::move(m.verts)), quads(std::move(m.quads)) {}
+Mesh::Mesh(Mesh &&m)
+    : verts(std::move(m.verts)), quads(std::move(m.quads)),
+      norms(std::move(m.norms)) {}
 
 // void Mesh::draw() {
 //   for (auto &face : this->quads) {
@@ -52,8 +55,8 @@ void Mesh::draw() {
   for (auto &face : quads) {
     glBegin(GL_POLYGON);
     for (int i = 0; i < face.vertIds.size(); i++) {
-      auto vert = verts[face.vertIds[i]];
       auto norm = norms[face.normIds[i]];
+      auto vert = verts[face.vertIds[i]];
       glNormal3f(norm.dx, norm.dy, norm.dz);
       glVertex3f(vert.x, vert.y, vert.z);
     }
