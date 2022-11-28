@@ -46,14 +46,14 @@ struct Scene {
   } camera;
 
   enum class MoveState {
+    IDLE,
     UP,
     DOWN,
-    IDLE,
   } move_state;
 
   enum class AnimateState {
-    ON,
     OFF,
+    ON,
   } animate_state;
 
   std::vector<Object> objs;

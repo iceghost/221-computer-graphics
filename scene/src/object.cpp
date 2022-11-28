@@ -40,15 +40,20 @@ void Scene::Object::draw() {
     switch (ord) {
     case 0:
       glRotated(this->r_x, 1, 0, 0);
-      break;
+      continue;
     case 1:
       glRotated(this->r_y, 0, 1, 0);
-      break;
+      continue;
     case 2:
       glRotated(this->r_z, 0, 0, 1);
-      break;
+      continue;
+    default:
+      throw "unreachable";
     }
   }
   this->m.draw_solid();
+  for (auto &child : this->children) {
+    child.draw();
+  }
   glPopMatrix();
 }

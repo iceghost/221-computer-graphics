@@ -10,6 +10,8 @@
 #include "mesh.hpp"
 #include "scene.hpp"
 
+const double DELTA_T = 1 / 60.0;
+
 std::unique_ptr<Scene> scene = nullptr;
 
 int main(int argc, const char **argv) {
@@ -29,7 +31,13 @@ int main(int argc, const char **argv) {
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
   scene = std::make_unique<Scene>();
-  auto obj = Scene::Object(Cuboid(4, 1, 2));
+  auto obj = Scene::Object(Cuboid(5, 0.2f, 4));
+  obj.translate({0, 0.1f, 0});
+
+  auto tbox1 = Scene::Object(TBox(3, 0.2f, 2, 2, 0.1f));
+  tbox1.rotate_x(90);
+  tbox1.translate({0, 1 + 0.1f, 0});
+  obj.children.push_back(std::move(tbox1));
   scene->objs.push_back(std::move(obj));
 
   glutDisplayFunc([]() {
@@ -43,12 +51,41 @@ int main(int argc, const char **argv) {
     glutPostRedisplay();
   });
 
-  // glutKeyboardFunc([](unsigned char key, int, int) {
-  //   std::cout << "Got key: " << key << std::endl;
-  //   if (key == GLUT_KEY_F4) {
-  //     exit(0);
-  //   }
-  // });
+  glutKeyboardFunc([](unsigned char key, int, int) {
+    switch (key) {
+    case '1':
+      scene->move_state = Scene::MoveState::UP;
+      return;
+    case '2':
+      scene->move_state = Scene::MoveState::DOWN;
+      return;
+    }
+  });
+
+  glutKeyboardUpFunc([](unsigned char key, int, int) {
+    switch (key) {
+    case '1':
+    case '2':
+      scene->move_state = Scene::MoveState::IDLE;
+    }
+  });
+
+  glutIdleFunc([]() {
+    auto redisplay = false;
+    switch (scene->move_state) {
+    case Scene::MoveState::UP:
+      scene->camera.height += 2 * DELTA_T;
+      redisplay = true;
+      break;
+    case Scene::MoveState::DOWN:
+      scene->camera.height -= 2 * DELTA_T;
+      redisplay = true;
+      break;
+    }
+    if (redisplay) {
+      glutPostRedisplay();
+    }
+  });
 
   glutMainLoop();
   return 0;

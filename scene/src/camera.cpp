@@ -24,8 +24,8 @@ void Scene::Camera::view() {
   glLoadIdentity();
   if (this->aspect_ratio <= 1.0)
     glOrtho(-HSIDE, HSIDE, -HSIDE / this->aspect_ratio,
-            HSIDE / this->aspect_ratio, -10.0, 10.0);
+            HSIDE / this->aspect_ratio, -50.0, 50.0);
   else
     glOrtho(-HSIDE * this->aspect_ratio, HSIDE * this->aspect_ratio, -HSIDE,
-            HSIDE, -10.0, 10.0);
+            HSIDE, -50.0, 50.0);
 }
