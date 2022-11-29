@@ -55,14 +55,6 @@ int main(int argc, const char **argv) {
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shine);
 
   scene = std::make_unique<Scene>();
-  auto obj = Scene::Object(Cuboid(5, 0.2f, 4));
-  obj.translate({0, 0.1f, 0});
-
-  auto tbox1 = Scene::Object(TBox(3, 0.2f, 2, 2, 0.1f));
-  tbox1.rotate_x(90);
-  tbox1.translate({0, 1 + 0.1f, 0});
-  obj.children.push_back(std::move(tbox1));
-  scene->objs.push_back(std::move(obj));
 
   glutDisplayFunc([]() {
     scene->display();

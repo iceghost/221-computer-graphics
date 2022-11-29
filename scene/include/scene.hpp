@@ -5,6 +5,13 @@
 #include "vector3.hpp"
 #include <vector>
 
+struct Material {
+  float ambient[4];
+  float diffuse[4];
+  float specular[4];
+  float shine;
+};
+
 struct Scene {
   struct Object {
     Vector3 t;
@@ -17,6 +24,7 @@ struct Scene {
     Object(Mesh &&m);
 
     Mesh m;
+    Material material;
 
     void translate(Vector3 vec);
     void rotate_x(double angle);
@@ -24,9 +32,9 @@ struct Scene {
     void rotate_z(double angle);
 
     void push_order(int order);
-    void add_child(Object &&child);
 
     void draw();
+    Object &add_child(Mesh &&m);
   };
 
   struct Camera {
@@ -61,4 +69,5 @@ struct Scene {
   Scene();
   void display();
   boolean update(const double dt);
+  Object &add_obj(Mesh &&m);
 };

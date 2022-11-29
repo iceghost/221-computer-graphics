@@ -51,9 +51,18 @@ void Scene::Object::draw() {
       throw "unreachable";
     }
   }
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, this->material.ambient);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, this->material.diffuse);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, this->material.specular);
+  glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, this->material.shine);
   this->m.draw_solid();
   for (auto &child : this->children) {
     child.draw();
   }
   glPopMatrix();
+}
+
+Scene::Object &Scene::Object::add_child(Mesh &&child_m) {
+  this->children.push_back(Scene::Object(std::move(child_m)));
+  return this->children.back();
 }
