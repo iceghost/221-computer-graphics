@@ -49,15 +49,32 @@ struct Scene {
     float aspect_ratio;
     int screen_width;
 
+    enum class Dimension {
+      THREE,
+      TWO,
+    } dimension;
+
     void view();
     void on_key(int key);
   } camera;
 
-  enum class MoveState {
+  enum class MoveVerticalState {
     IDLE,
     UP,
     DOWN,
-  } move_state;
+  } vertical_state;
+
+  enum class MoveHorizontalState {
+    IDLE,
+    LEFT,
+    RIGHT,
+  } horizontal_state;
+
+  enum class ZoomState {
+    IDLE,
+    MAGNIFY,
+    MINIFY,
+  } zoom_state;
 
   enum class AnimateState {
     OFF,

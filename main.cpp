@@ -45,15 +45,6 @@ int main(int argc, const char **argv) {
   glLightfv(GL_LIGHT0, GL_DIFFUSE, diff0);
   glLightfv(GL_LIGHT0, GL_SPECULAR, spec0);
 
-  float ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
-  float diffuse[] = {1.0f, 0.8f, 0.0f, 1.0f};
-  float specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
-  float shine = 100.0f;
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
-  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
-  glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shine);
-
   scene = std::make_unique<Scene>();
 
   glutDisplayFunc([]() {
@@ -69,20 +60,63 @@ int main(int argc, const char **argv) {
 
   glutKeyboardFunc([](unsigned char key, int, int) {
     switch (key) {
-    case '1':
-      scene->move_state = Scene::MoveState::UP;
-      return;
-    case '2':
-      scene->move_state = Scene::MoveState::DOWN;
-      return;
+    case '=':
+    case '+':
+      scene->zoom_state = Scene::ZoomState::MAGNIFY;
+      break;
+    case '_':
+    case '-':
+      scene->zoom_state = Scene::ZoomState::MINIFY;
+      break;
+    case 'v':
+      scene->camera.dimension = Scene::Camera::Dimension::TWO;
+      glutPostRedisplay();
+      break;
+    case 'V':
+      scene->camera.dimension = Scene::Camera::Dimension::THREE;
+      glutPostRedisplay();
+      break;
+    }
+  });
+
+  glutSpecialFunc([](int key, int, int) {
+    switch (key) {
+    case GLUT_KEY_UP:
+      scene->vertical_state = Scene::MoveVerticalState::UP;
+      break;
+    case GLUT_KEY_DOWN:
+      scene->vertical_state = Scene::MoveVerticalState::DOWN;
+      break;
+    case GLUT_KEY_LEFT:
+      scene->horizontal_state = Scene::MoveHorizontalState::LEFT;
+      break;
+    case GLUT_KEY_RIGHT:
+      scene->horizontal_state = Scene::MoveHorizontalState::RIGHT;
+      break;
     }
   });
 
   glutKeyboardUpFunc([](unsigned char key, int, int) {
     switch (key) {
-    case '1':
-    case '2':
-      scene->move_state = Scene::MoveState::IDLE;
+    case '=':
+    case '+':
+    case '_':
+    case '-':
+      scene->zoom_state = Scene::ZoomState::IDLE;
+      break;
+    }
+  });
+
+  glutSpecialUpFunc([](int key, int, int) {
+    switch (key) {
+    case GLUT_KEY_UP:
+    case GLUT_KEY_DOWN:
+      scene->vertical_state = Scene::MoveVerticalState::IDLE;
+      break;
+    case GLUT_KEY_LEFT:
+    case GLUT_KEY_RIGHT:
+      scene->horizontal_state = Scene::MoveHorizontalState::IDLE;
+      break;
     }
   });
 

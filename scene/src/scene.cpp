@@ -47,7 +47,7 @@ const auto LIEN_KET_DX = 2 * CHOT_DIAMETER;
 const auto LIEN_KET_DY = CHOT_DISTANCE + 2 * CHOT_DIAMETER;
 const auto LIEN_KET_DZ = DZ;
 
-Scene::Scene() : camera({45, 3, 5, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
+Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &chan_de = this->add_obj(Cuboid(CHAN_DE_DX, CHAN_DE_DY, CHAN_DE_DZ));
   chan_de.translate({0, CHAN_DE_DY / 2, 0});
   chan_de.material = {{0.0f, 0.0f, 0.0f, 1.0f},
@@ -112,18 +112,52 @@ void Scene::display() {
 
 boolean Scene::update(const double dt) {
   auto redisplay = false;
-  switch (this->move_state) {
-  case Scene::MoveState::UP:
-    this->camera.height += 3 * dt;
+
+  if (this->camera.dimension == Scene::Camera::Dimension::THREE) {
+    switch (this->vertical_state) {
+    case Scene::MoveVerticalState::UP:
+      this->camera.height += 10 * dt;
+      redisplay = true;
+      break;
+    case Scene::MoveVerticalState::DOWN:
+      this->camera.height -= 10 * dt;
+      redisplay = true;
+      break;
+    case Scene::MoveVerticalState::IDLE:
+      break;
+    }
+  }
+
+  switch (this->horizontal_state) {
+  case Scene::MoveHorizontalState::LEFT:
+    this->camera.angle -= 90 * dt;
     redisplay = true;
     break;
-  case Scene::MoveState::DOWN:
-    this->camera.height -= 3 * dt;
+  case Scene::MoveHorizontalState::RIGHT:
+    this->camera.angle += 90 * dt;
     redisplay = true;
     break;
-  case Scene::MoveState::IDLE:
+  case Scene::MoveHorizontalState::IDLE:
     break;
   }
+
+  if (this->camera.dimension == Scene::Camera::Dimension::THREE) {
+    switch (this->zoom_state) {
+    case Scene::ZoomState::MAGNIFY:
+      this->camera.distance -= 1 * dt;
+      if (this->camera.distance < 0)
+        this->camera.distance = 0;
+      redisplay = true;
+      break;
+    case Scene::ZoomState::MINIFY:
+      this->camera.distance += 1 * dt;
+      redisplay = true;
+      break;
+    case Scene::ZoomState::IDLE:
+      break;
+    }
+  }
+
   return redisplay;
 }
 
