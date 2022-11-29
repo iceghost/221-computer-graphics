@@ -4,6 +4,7 @@
 #include "scene.hpp"
 #include <GL/GL.h>
 #include <GL/GLU.h>
+#include <cmath>
 
 // TWEAKABLE:
 const auto N_SEGMENTS = 20;
@@ -22,16 +23,16 @@ const auto CHOT_DIAMETER = 0.2f;
 // TWEAKABLE:
 const auto CHOT_1_Y = 0.5f;
 // FIXED:
-const auto CHOT_1_HEIGHT = DZ + DZ + DZ / 2 + 2 * DZ + DZ / 2 + DZ;
+const auto CHOT_1_HEIGHT = DZ + DZ + DZ / 2 + 2 * DZ + DZ / 2 + DZ + DZ / 4;
 
 // FIXED
-const auto CHOT_2_HEIGHT = DZ + DZ / 2 + DZ;
+const auto CHOT_2_HEIGHT = DZ + DZ / 2 + DZ + DZ / 4;
 
 // TWEAKABLE:
 const auto RAY_DX = 0.4f;
 const auto RAY_DEPTH = 0.3f;
 // FIXED:
-const auto RAY_DY = CHOT_DISTANCE * 2;
+const auto RAY_DY = CHOT_DISTANCE * 2 + 2 * (CHOT_1_Y - CHAN_DE_DY);
 const auto RAY_DZ = 2 * DZ;
 const auto RAY_WIDTH = DZ;
 
@@ -102,7 +103,11 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
                              TAM_TRUOT_WIDTH, TAM_TRUOT_DEPTH));
   tam_truot_a.rotate_x([](double) { return 90.0; });
   tam_truot_a.translate([](double t) {
-    return Vector3(0, CHAN_DE_DY / 2 + TAM_TRUOT_DY / 2 + float(t) * 2 * CHOT_DISTANCE, TAM_TRUOT_DZ / 4);
+    return Vector3(0,
+                   CHAN_DE_DY / 2 + TAM_TRUOT_DY / 2 +
+                       float((std::cos(t * 2 * M_PI + M_PI) + 1) / 2) * 2 *
+                           CHOT_DISTANCE,
+                   TAM_TRUOT_DZ / 4);
   });
   tam_truot_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                           {0.0f, 0.0f, 1.0f, 1.0f},
@@ -122,9 +127,9 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
 
   auto &chot_1 = tam_truot_a.add_child(
       Cylinder(N_SEGMENTS, CHOT_1_HEIGHT, CHOT_DIAMETER / 2));
+  chot_1.rotate_y([](double time) { return time * 360; });
   chot_1.translate([](double) {
-    return Vector3(
-        0, TAM_TRUOT_DZ / 4 + CHOT_1_HEIGHT / 2 - TAM_TRUOT_DZ - 3 * DZ / 2, 0);
+    return Vector3(0, -TAM_TRUOT_DZ / 4 - CHOT_1_HEIGHT / 2 + 7 * DZ / 2, 0);
   });
   chot_1.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                      {1.0f, 0.0f, 0.0f, 1.0f},
@@ -144,7 +149,8 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &chot_2 = lien_ket.add_child(
       Cylinder(N_SEGMENTS, CHOT_2_HEIGHT, CHOT_DIAMETER / 2));
   chot_2.translate([](double) {
-    return Vector3(0, LIEN_KET_DZ / 2 - CHOT_2_HEIGHT / 2, -CHOT_DISTANCE / 2);
+    return Vector3(0, LIEN_KET_DZ / 2 + CHOT_2_HEIGHT / 2 - 5 * DZ / 2,
+                   -CHOT_DISTANCE / 2);
   });
   chot_2.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                      {1.0f, 0.0f, 0.0f, 1.0f},
@@ -271,6 +277,16 @@ boolean Scene::update(const double dt) {
     case Scene::ZoomState::IDLE:
       break;
     }
+  }
+
+  if (this->animate_state == Scene::AnimateState::ON) {
+    this->t +=
+        0.2 *
+        dt; // 1 second progress 0.2, so duration of animation is 5 seconds
+    // loop back
+    if (this->t > 1)
+      this->t = 0;
+    redisplay = true;
   }
 
   return redisplay;

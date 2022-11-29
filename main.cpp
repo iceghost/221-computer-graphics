@@ -76,6 +76,12 @@ int main(int argc, const char **argv) {
       scene->camera.dimension = Scene::Camera::Dimension::THREE;
       glutPostRedisplay();
       break;
+    case 'a':
+      scene->animate_state = Scene::AnimateState::ON;
+      break;
+    case 'A':
+      scene->animate_state = Scene::AnimateState::OFF;
+      break;
     }
   });
 
