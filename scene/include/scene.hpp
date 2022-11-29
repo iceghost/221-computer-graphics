@@ -14,10 +14,10 @@ struct Material {
 
 struct Scene {
   struct Object {
-    Vector3 t;
-    double r_x;
-    double r_y;
-    double r_z;
+    Vector3 (*t)(double t) = nullptr;
+    double (*r_x)(double t) = nullptr;
+    double (*r_y)(double t) = nullptr;
+    double (*r_z)(double t) = nullptr;
     std::vector<int> r_ords; // 0 for x, 1 for y, 2 for z
     std::vector<Object> children;
 
@@ -26,14 +26,14 @@ struct Scene {
     Mesh m;
     Material material;
 
-    void translate(Vector3 vec);
-    void rotate_x(double angle);
-    void rotate_y(double angle);
-    void rotate_z(double angle);
+    void translate(Vector3 (*)(double t));
+    void rotate_x(double (*)(double t));
+    void rotate_y(double (*)(double t));
+    void rotate_z(double (*)(double t));
 
     void push_order(int order);
 
-    void draw();
+    void draw(double t);
     Object &add_child(Mesh &&m);
   };
 
@@ -80,6 +80,7 @@ struct Scene {
     OFF,
     ON,
   } animate_state;
+  double t = 0.0; // range: 0 -> 1
 
   std::vector<Object> objs;
 

@@ -65,7 +65,7 @@ const auto GIA_DO_B_DZ = DZ;
 
 Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &chan_de = this->add_obj(Cuboid(CHAN_DE_DX, CHAN_DE_DY, CHAN_DE_DZ));
-  chan_de.translate({0, CHAN_DE_DY / 2, 0});
+  chan_de.translate([](double) { return Vector3(0, CHAN_DE_DY / 2, 0); });
   chan_de.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                       {1.0f, 0.0f, 0.0f, 1.0f},
                       {1.0f, 1.0f, 1.0f, 1.0f},
@@ -73,10 +73,12 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
 
   auto &ray1 =
       chan_de.add_child(UBox(RAY_DZ, RAY_DX, RAY_DY, RAY_WIDTH, RAY_DEPTH));
-  ray1.rotate_x(90);
-  ray1.rotate_z(90);
-  ray1.translate(
-      {RAY_DX / 2 + TAM_TRUOT_WIDTH / 2, CHAN_DE_DY / 2 + RAY_DY / 2, 0});
+  ray1.rotate_x([](double) { return 90.0; });
+  ray1.rotate_z([](double) { return 90.0; });
+  ray1.translate([](double) {
+    return Vector3(RAY_DX / 2 + TAM_TRUOT_WIDTH / 2,
+                   CHAN_DE_DY / 2 + RAY_DY / 2, 0);
+  });
   ray1.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                    {0.0f, 1.0f, 0.0f, 1.0f},
                    {1.0f, 1.0f, 1.0f, 1.0f},
@@ -84,10 +86,12 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
 
   auto &ray2 =
       chan_de.add_child(UBox(RAY_DZ, RAY_DX, RAY_DY, RAY_WIDTH, RAY_DEPTH));
-  ray2.rotate_x(90);
-  ray2.rotate_z(-90);
-  ray2.translate(
-      {-RAY_DX / 2 - TAM_TRUOT_WIDTH / 2, CHAN_DE_DY / 2 + RAY_DY / 2, 0});
+  ray2.rotate_x([](double) { return 90.0; });
+  ray2.rotate_z([](double) { return -90.0; });
+  ray2.translate([](double) {
+    return Vector3(-RAY_DX / 2 - TAM_TRUOT_WIDTH / 2,
+                   CHAN_DE_DY / 2 + RAY_DY / 2, 0);
+  });
   ray2.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                    {0.0f, 1.0f, 0.0f, 1.0f},
                    {1.0f, 1.0f, 1.0f, 1.0f},
@@ -96,9 +100,10 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &tam_truot_a =
       chan_de.add_child(TBox(TAM_TRUOT_DX, TAM_TRUOT_DZ / 2, TAM_TRUOT_DY,
                              TAM_TRUOT_WIDTH, TAM_TRUOT_DEPTH));
-  tam_truot_a.rotate_x(90);
-  tam_truot_a.translate(
-      {0, CHAN_DE_DY / 2 + TAM_TRUOT_DY / 2, TAM_TRUOT_DZ / 4});
+  tam_truot_a.rotate_x([](double) { return 90.0; });
+  tam_truot_a.translate([](double t) {
+    return Vector3(0, CHAN_DE_DY / 2 + TAM_TRUOT_DY / 2 + float(t) * 2 * CHOT_DISTANCE, TAM_TRUOT_DZ / 4);
+  });
   tam_truot_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                           {0.0f, 0.0f, 1.0f, 1.0f},
                           {1.0f, 1.0f, 1.0f, 1.0f},
@@ -107,8 +112,9 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &tam_truot_b =
       tam_truot_a.add_child(TBox(TAM_TRUOT_DX, TAM_TRUOT_DZ / 2, TAM_TRUOT_DY,
                                  TAM_TRUOT_WIDTH, TAM_TRUOT_DEPTH));
-  tam_truot_b.rotate_z(180);
-  tam_truot_b.translate({0, -TAM_TRUOT_DZ / 2, 0});
+  tam_truot_b.rotate_z([](double) { return 180.0; });
+  tam_truot_b.translate(
+      [](double) { return Vector3(0, -TAM_TRUOT_DZ / 2, 0); });
   tam_truot_b.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                           {0.0f, 0.0f, 1.0f, 1.0f},
                           {1.0f, 1.0f, 1.0f, 1.0f},
@@ -116,8 +122,10 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
 
   auto &chot_1 = tam_truot_a.add_child(
       Cylinder(N_SEGMENTS, CHOT_1_HEIGHT, CHOT_DIAMETER / 2));
-  chot_1.translate(
-      {0, TAM_TRUOT_DZ / 4 + CHOT_1_HEIGHT / 2 - TAM_TRUOT_DZ - 3 * DZ / 2, 0});
+  chot_1.translate([](double) {
+    return Vector3(
+        0, TAM_TRUOT_DZ / 4 + CHOT_1_HEIGHT / 2 - TAM_TRUOT_DZ - 3 * DZ / 2, 0);
+  });
   chot_1.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                      {1.0f, 0.0f, 0.0f, 1.0f},
                      {1.0f, 1.0f, 1.0f, 1.0f},
@@ -125,7 +133,9 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
 
   auto &lien_ket =
       chot_1.add_child(Cuboid(LIEN_KET_DX, LIEN_KET_DZ, LIEN_KET_DY));
-  lien_ket.translate({0, LIEN_KET_DZ / 2 - 3 * DZ, -CHOT_DISTANCE / 2});
+  lien_ket.translate([](double) {
+    return Vector3(0, LIEN_KET_DZ / 2 - 3 * DZ, -CHOT_DISTANCE / 2);
+  });
   lien_ket.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                        {0.5f, 0.5f, 0.5f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
@@ -133,8 +143,9 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
 
   auto &chot_2 = lien_ket.add_child(
       Cylinder(N_SEGMENTS, CHOT_2_HEIGHT, CHOT_DIAMETER / 2));
-  chot_2.translate(
-      {0, LIEN_KET_DZ / 2 - CHOT_2_HEIGHT / 2, -CHOT_DISTANCE / 2});
+  chot_2.translate([](double) {
+    return Vector3(0, LIEN_KET_DZ / 2 - CHOT_2_HEIGHT / 2, -CHOT_DISTANCE / 2);
+  });
   chot_2.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                      {1.0f, 0.0f, 0.0f, 1.0f},
                      {1.0f, 1.0f, 1.0f, 1.0f},
@@ -142,14 +153,15 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
 
   auto &but_ve_a = chot_1.add_child(
       HollowCylinder(N_SEGMENTS, DZ, 3 * CHOT_DIAMETER / 2, CHOT_DIAMETER / 2));
-  but_ve_a.translate({0, 3 * DZ / 2, 0});
+  but_ve_a.translate([](double) { return Vector3(0, 3 * DZ / 2, 0); });
   but_ve_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                        {0.5f, 0.5f, 0.5f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
                        100.0f};
 
   auto &but_ve_b = but_ve_a.add_child(Cuboid(CHOT_DIAMETER, DZ, BUT_VE_B_DY));
-  but_ve_b.translate({0, 0, -BUT_VE_B_DY / 2 - CHOT_DIAMETER});
+  but_ve_b.translate(
+      [](double) { return Vector3(0, 0, -BUT_VE_B_DY / 2 - CHOT_DIAMETER); });
   but_ve_b.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                        {0.5f, 0.5f, 0.5f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
@@ -157,7 +169,8 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
 
   auto &but_ve_c = but_ve_b.add_child(
       PointedCylinder(N_SEGMENTS, DZ, CHOT_DIAMETER / 4, DZ / 2));
-  but_ve_c.translate({0, DZ, -BUT_VE_B_DY / 2 + CHOT_DIAMETER});
+  but_ve_c.translate(
+      [](double) { return Vector3(0, DZ, -BUT_VE_B_DY / 2 + CHOT_DIAMETER); });
   but_ve_c.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                        {1.0f, 0.0f, 0.0f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
@@ -165,7 +178,9 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
 
   auto &gia_do_a =
       chan_de.add_child(Cuboid(GIA_DO_A_DX, GIA_DO_A_DY, GIA_DO_A_DZ));
-  gia_do_a.translate({0, CHAN_DE_DY / 2 + GIA_DO_A_DY / 2, -3.5f * DZ});
+  gia_do_a.translate([](double) {
+    return Vector3(0, CHAN_DE_DY / 2 + GIA_DO_A_DY / 2, -3.5f * DZ);
+  });
   gia_do_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                        {0.0f, 1.0f, 1.0f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
@@ -174,9 +189,10 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &gia_do_b = gia_do_a.add_child(
       HollowBox(N_SEGMENTS, GIA_DO_B_DY, GIA_DO_B_DZ, GIA_DO_B_DX,
                 GIA_DO_B_HOLE_DY, GIA_DO_B_HOLE_DX));
-  gia_do_b.rotate_x(90);
-  gia_do_b.rotate_y(90);
-  gia_do_b.translate({0, GIA_DO_A_DY / 2 + GIA_DO_B_DY / 2, 0});
+  gia_do_b.rotate_x([](double) { return 90.0; });
+  gia_do_b.rotate_y([](double) { return 90.0; });
+  gia_do_b.translate(
+      [](double) { return Vector3(0, GIA_DO_A_DY / 2 + GIA_DO_B_DY / 2, 0); });
   gia_do_b.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                        {0.0f, 1.0f, 1.0f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
@@ -203,7 +219,7 @@ void Scene::display() {
   glColor3f(0, 0, 0);
 
   for (auto &obj : this->objs) {
-    obj.draw();
+    obj.draw(this->t);
   }
 
   glFlush();
@@ -243,13 +259,13 @@ boolean Scene::update(const double dt) {
   if (this->camera.dimension == Scene::Camera::Dimension::THREE) {
     switch (this->zoom_state) {
     case Scene::ZoomState::MAGNIFY:
-      this->camera.distance -= 1 * dt;
+      this->camera.distance -= 2 * dt;
       if (this->camera.distance < 0)
         this->camera.distance = 0;
       redisplay = true;
       break;
     case Scene::ZoomState::MINIFY:
-      this->camera.distance += 1 * dt;
+      this->camera.distance += 2 * dt;
       redisplay = true;
       break;
     case Scene::ZoomState::IDLE:
