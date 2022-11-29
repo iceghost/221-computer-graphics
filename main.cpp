@@ -35,7 +35,7 @@ int main(int argc, const char **argv) {
   glEnable(GL_LIGHT0);
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-  float myLightPosition[] = {1.0f, 1.0f, 1.0f, 0.0f};
+  float myLightPosition[] = {1.0f, 2.0f, 5.0f, 0.0f};
   glLightfv(GL_LIGHT0, GL_POSITION, myLightPosition);
 
   float amb0[] = {0.2f, 0.4f, 0.6f, 1.0f};
