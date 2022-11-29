@@ -279,14 +279,52 @@ boolean Scene::update(const double dt) {
     }
   }
 
-  if (this->animate_state == Scene::AnimateState::ON) {
-    this->t +=
-        0.2 *
-        dt; // 1 second progress 0.2, so duration of animation is 5 seconds
-    // loop back
-    if (this->t > 1)
+  switch (this->animate_state) {
+  case Scene::AnimateState::ON:
+    // 1 second progress 0.2, so duration of animation is 5 seconds
+    this->t += 0.2 * dt;
+    if (this->t > 1) {
       this->t = 0;
+    }
     redisplay = true;
+    break;
+  case Scene::AnimateState::OFF:
+    switch (this->manual_animate_state) {
+    case Scene::ManualAnimateState::UP:
+      if (this->t == 0 && this->anticlockwise || 0 < this->t && this->t < 0.5) {
+        this->t = min(this->t + 0.2 * dt, 0.5);
+        this->anticlockwise = true;
+        redisplay = true;
+      } else if (this->t == 1 && !this->anticlockwise ||
+                 0.5 < this->t && this->t < 1) {
+        this->t = max(this->t - 0.2 * dt, 0.5);
+        this->anticlockwise = false;
+        redisplay = true;
+      }
+      break;
+    case Scene::ManualAnimateState::DOWN:
+      if (this->t == 0.5 && this->anticlockwise ||
+          0.5 < this->t && this->t < 1) {
+        this->t += 0.2 * dt;
+        if (this->t >= 1) {
+          this->t = 0;
+        }
+        this->anticlockwise = true;
+        redisplay = true;
+      } else if (this->t == 0.5 && !this->anticlockwise ||
+                 0 < this->t && this->t < 0.5) {
+        this->t -= 0.2 * dt;
+        if (this->t <= 0) {
+          this->t = 1;
+        }
+        this->anticlockwise = false;
+        redisplay = true;
+      }
+      break;
+    case Scene::ManualAnimateState::IDLE:
+      break;
+    }
+    break;
   }
 
   return redisplay;

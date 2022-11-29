@@ -62,25 +62,32 @@ struct Scene {
     IDLE,
     UP,
     DOWN,
-  } vertical_state;
+  } vertical_state = MoveVerticalState::IDLE;
 
   enum class MoveHorizontalState {
     IDLE,
     LEFT,
     RIGHT,
-  } horizontal_state;
+  } horizontal_state = MoveHorizontalState::IDLE;
 
   enum class ZoomState {
     IDLE,
     MAGNIFY,
     MINIFY,
-  } zoom_state;
+  } zoom_state = ZoomState::IDLE;
 
   enum class AnimateState {
     OFF,
     ON,
-  } animate_state;
+  } animate_state = AnimateState::OFF;
   double t = 0.0; // range: 0 -> 1
+
+  enum class ManualAnimateState {
+    IDLE,
+    UP,
+    DOWN,
+  } manual_animate_state;
+  boolean anticlockwise = true;
 
   std::vector<Object> objs;
 

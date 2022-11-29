@@ -82,6 +82,12 @@ int main(int argc, const char **argv) {
     case 'A':
       scene->animate_state = Scene::AnimateState::OFF;
       break;
+    case '1':
+      scene->manual_animate_state = Scene::ManualAnimateState::UP;
+      break;
+    case '2':
+      scene->manual_animate_state = Scene::ManualAnimateState::DOWN;
+      break;
     }
   });
 
@@ -109,6 +115,10 @@ int main(int argc, const char **argv) {
     case '_':
     case '-':
       scene->zoom_state = Scene::ZoomState::IDLE;
+      break;
+    case '1':
+    case '2':
+      scene->manual_animate_state = Scene::ManualAnimateState::IDLE;
       break;
     }
   });
