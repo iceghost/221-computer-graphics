@@ -48,7 +48,20 @@ const auto LIEN_KET_DY = CHOT_DISTANCE + 2 * CHOT_DIAMETER;
 const auto LIEN_KET_DZ = DZ;
 
 // FIXED:
-const auto BUT_VE_B_DY = 4 * LIEN_KET_DY / 3;
+const auto BUT_VE_B_DY = LIEN_KET_DY;
+
+// TWEAKABLE:
+const auto GIA_DO_A_DX = TAM_TRUOT_WIDTH * 2 / 3;
+// FIXED:
+const auto GIA_DO_A_DZ = DZ;
+const auto GIA_DO_A_DY = TAM_TRUOT_DY / 2 + CHOT_DISTANCE - CHOT_DIAMETER;
+
+// FIXED:
+const auto GIA_DO_B_HOLE_DX = 2 * CHOT_DISTANCE + CHOT_DIAMETER;
+const auto GIA_DO_B_HOLE_DY = CHOT_DIAMETER;
+const auto GIA_DO_B_DX = GIA_DO_B_HOLE_DX + CHOT_DIAMETER;
+const auto GIA_DO_B_DY = 2 * CHOT_DIAMETER;
+const auto GIA_DO_B_DZ = DZ;
 
 Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &chan_de = this->add_obj(Cuboid(CHAN_DE_DX, CHAN_DE_DY, CHAN_DE_DZ));
@@ -85,7 +98,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
                              TAM_TRUOT_WIDTH, TAM_TRUOT_DEPTH));
   tam_truot_a.rotate_x(90);
   tam_truot_a.translate(
-      {0, CHAN_DE_DY / 2 + TAM_TRUOT_DY / 2 + 1, TAM_TRUOT_DZ / 4});
+      {0, CHAN_DE_DY / 2 + TAM_TRUOT_DY / 2, TAM_TRUOT_DZ / 4});
   tam_truot_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                           {0.0f, 0.0f, 1.0f, 1.0f},
                           {1.0f, 1.0f, 1.0f, 1.0f},
@@ -109,8 +122,6 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
                      {1.0f, 0.0f, 0.0f, 1.0f},
                      {1.0f, 1.0f, 1.0f, 1.0f},
                      100.0f};
-
-  chot_1.rotate_y(45);
 
   auto &lien_ket =
       chot_1.add_child(Cuboid(LIEN_KET_DX, LIEN_KET_DZ, LIEN_KET_DY));
@@ -141,6 +152,33 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   but_ve_b.translate({0, 0, -BUT_VE_B_DY / 2 - CHOT_DIAMETER});
   but_ve_b.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                        {0.5f, 0.5f, 0.5f, 1.0f},
+                       {1.0f, 1.0f, 1.0f, 1.0f},
+                       100.0f};
+
+  auto &but_ve_c = but_ve_b.add_child(
+      PointedCylinder(N_SEGMENTS, DZ, CHOT_DIAMETER / 4, DZ / 2));
+  but_ve_c.translate({0, DZ, -BUT_VE_B_DY / 2 + CHOT_DIAMETER});
+  but_ve_c.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+                       {1.0f, 0.0f, 0.0f, 1.0f},
+                       {1.0f, 1.0f, 1.0f, 1.0f},
+                       100.0f};
+
+  auto &gia_do_a =
+      chan_de.add_child(Cuboid(GIA_DO_A_DX, GIA_DO_A_DY, GIA_DO_A_DZ));
+  gia_do_a.translate({0, CHAN_DE_DY / 2 + GIA_DO_A_DY / 2, -3.5f * DZ});
+  gia_do_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+                       {0.0f, 1.0f, 1.0f, 1.0f},
+                       {1.0f, 1.0f, 1.0f, 1.0f},
+                       100.0f};
+
+  auto &gia_do_b = gia_do_a.add_child(
+      HollowBox(N_SEGMENTS, GIA_DO_B_DY, GIA_DO_B_DZ, GIA_DO_B_DX,
+                GIA_DO_B_HOLE_DY, GIA_DO_B_HOLE_DX));
+  gia_do_b.rotate_x(90);
+  gia_do_b.rotate_y(90);
+  gia_do_b.translate({0, GIA_DO_A_DY / 2 + GIA_DO_B_DY / 2, 0});
+  gia_do_b.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+                       {0.0f, 1.0f, 1.0f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
                        100.0f};
 }
