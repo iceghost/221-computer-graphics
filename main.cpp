@@ -39,7 +39,7 @@ int main(int argc, const char **argv) {
   glLightfv(GL_LIGHT0, GL_POSITION, myLightPosition);
 
   float amb0[] = {0.2f, 0.4f, 0.6f, 1.0f};
-  float diff0[] = {0.8f, 0.9f, 0.5f, 1.0f};
+  float diff0[] = {0.8f, 0.9f, 0.8f, 1.0f};
   float spec0[] = {1.0f, 0.8f, 1.0f, 1.0f};
   glLightfv(GL_LIGHT0, GL_AMBIENT, amb0);
   glLightfv(GL_LIGHT0, GL_DIFFUSE, diff0);

@@ -47,6 +47,9 @@ const auto LIEN_KET_DX = 2 * CHOT_DIAMETER;
 const auto LIEN_KET_DY = CHOT_DISTANCE + 2 * CHOT_DIAMETER;
 const auto LIEN_KET_DZ = DZ;
 
+// FIXED:
+const auto BUT_VE_B_DY = 4 * LIEN_KET_DY / 3;
+
 Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &chan_de = this->add_obj(Cuboid(CHAN_DE_DX, CHAN_DE_DY, CHAN_DE_DZ));
   chan_de.translate({0, CHAN_DE_DY / 2, 0});
@@ -82,7 +85,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
                              TAM_TRUOT_WIDTH, TAM_TRUOT_DEPTH));
   tam_truot_a.rotate_x(90);
   tam_truot_a.translate(
-      {0, CHAN_DE_DY / 2 + TAM_TRUOT_DY / 2, TAM_TRUOT_DZ / 4});
+      {0, CHAN_DE_DY / 2 + TAM_TRUOT_DY / 2 + 1, TAM_TRUOT_DZ / 4});
   tam_truot_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
                           {0.0f, 0.0f, 1.0f, 1.0f},
                           {1.0f, 1.0f, 1.0f, 1.0f},
@@ -107,6 +110,8 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
                      {1.0f, 1.0f, 1.0f, 1.0f},
                      100.0f};
 
+  chot_1.rotate_y(45);
+
   auto &lien_ket =
       chot_1.add_child(Cuboid(LIEN_KET_DX, LIEN_KET_DZ, LIEN_KET_DY));
   lien_ket.translate({0, LIEN_KET_DZ / 2 - 3 * DZ, -CHOT_DISTANCE / 2});
@@ -123,6 +128,21 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
                      {1.0f, 0.0f, 0.0f, 1.0f},
                      {1.0f, 1.0f, 1.0f, 1.0f},
                      100.0f};
+
+  auto &but_ve_a = chot_1.add_child(
+      HollowCylinder(N_SEGMENTS, DZ, 3 * CHOT_DIAMETER / 2, CHOT_DIAMETER / 2));
+  but_ve_a.translate({0, 3 * DZ / 2, 0});
+  but_ve_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+                       {0.5f, 0.5f, 0.5f, 1.0f},
+                       {1.0f, 1.0f, 1.0f, 1.0f},
+                       100.0f};
+
+  auto &but_ve_b = but_ve_a.add_child(Cuboid(CHOT_DIAMETER, DZ, BUT_VE_B_DY));
+  but_ve_b.translate({0, 0, -BUT_VE_B_DY / 2 - CHOT_DIAMETER});
+  but_ve_b.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+                       {0.5f, 0.5f, 0.5f, 1.0f},
+                       {1.0f, 1.0f, 1.0f, 1.0f},
+                       100.0f};
 }
 
 void Scene::display() {

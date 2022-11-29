@@ -22,10 +22,10 @@ HollowCylinder::HollowCylinder(int n, float h, float R, float r)
   }
 
   for (int i = 0; i < n; i++) {
-    this->norms.push_back({std::cos(angle * i), 0, std::sin(angle * i)});
+    this->norms.push_back({-std::cos(angle * i), 0, -std::sin(angle * i)});
   }
   for (int i = 0; i < n; i++) {
-    this->norms.push_back({-std::cos(angle * i), 0, -std::sin(angle * i)});
+    this->norms.push_back({std::cos(angle * i), 0, std::sin(angle * i)});
   }
   for (int i = 0; i < n; i++) {
     this->norms.push_back({0, 1, 0});
