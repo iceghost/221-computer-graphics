@@ -69,18 +69,27 @@ int main(int argc, const char **argv) {
       scene->zoom_state = Scene::ZoomState::MINIFY;
       break;
     case 'v':
-      scene->camera.dimension = Scene::Camera::Dimension::TWO;
-      glutPostRedisplay();
-      break;
     case 'V':
-      scene->camera.dimension = Scene::Camera::Dimension::THREE;
+      switch (scene->camera.dimension) {
+      case Scene::Camera::Dimension::TWO:
+        scene->camera.dimension = Scene::Camera::Dimension::THREE;
+        break;
+      case Scene::Camera::Dimension::THREE:
+        scene->camera.dimension = Scene::Camera::Dimension::TWO;
+        break;
+      }
       glutPostRedisplay();
       break;
     case 'a':
-      scene->animate_state = Scene::AnimateState::ON;
-      break;
     case 'A':
-      scene->animate_state = Scene::AnimateState::OFF;
+      switch (scene->animate_state) {
+      case Scene::AnimateState::OFF:
+        scene->animate_state = Scene::AnimateState::ON;
+        break;
+      case Scene::AnimateState::ON:
+        scene->animate_state = Scene::AnimateState::OFF;
+        break;
+      }
       break;
     case '1':
       scene->manual_animate_state = Scene::ManualAnimateState::UP;
