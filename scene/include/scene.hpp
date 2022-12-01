@@ -81,6 +81,7 @@ struct Scene {
     ON,
   } animate_state = AnimateState::OFF;
   double t = 0.0; // range: 0 -> 1
+  double start_t = 0.0;
 
   enum class ManualAnimateState {
     IDLE,
@@ -99,6 +100,7 @@ struct Scene {
   Scene();
   void display();
   void draw_floor();
+  void draw_trace();
   boolean update(const double dt);
   Object &add_obj(Mesh &&m);
 };

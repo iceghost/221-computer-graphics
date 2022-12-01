@@ -97,9 +97,11 @@ int main(int argc, const char **argv) {
       switch (scene->animate_state) {
       case Scene::AnimateState::OFF:
         scene->animate_state = Scene::AnimateState::ON;
+        scene->start_t = scene->t;
         break;
       case Scene::AnimateState::ON:
         scene->animate_state = Scene::AnimateState::OFF;
+        glutPostRedisplay();
         break;
       }
       break;

@@ -210,6 +210,10 @@ void Scene::display() {
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  if (this->animate_state == Scene::AnimateState::ON) {
+    this->draw_trace();
+  }
+
   if (this->draw_mode == Scene::DrawMode::SOLID) {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   } else {
@@ -337,8 +341,6 @@ void Scene::draw_floor() {
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
   glNormal3d(0, 1.0, 0);
 
-  glMatrixMode(GL_MODELVIEW);
-
   for (int z = -10; z < 10; z++) {
     for (int x = -10; x < 10; x++) {
       const double u = 1.0 / 4;
@@ -415,4 +417,22 @@ void Scene::draw_floor() {
       }
     }
   }
+}
+
+void Scene::draw_trace() {
+  auto dy = BUT_VE_B_DY - CHOT_DISTANCE;
+  auto dx = BUT_VE_B_DY;
+  auto dz = 4 * DZ;
+
+  auto y = [&](double t) { return dy * std::cos(t * 2 * M_PI); };
+  auto x = [&](double t) { return -dx * std::sin(t * 2 * M_PI); };
+
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  glBegin(GL_LINE_STRIP);
+  auto end = this->start_t < this->t ? this->t : 1 + this->t;
+  for (auto t0 = this->start_t; t0 < end; t0 += 0.01) {
+    glVertex3d(x(t0), CHAN_DE_DY + TAM_TRUOT_DY / 2 + CHOT_DISTANCE + y(t0),
+               dz);
+  }
+  glEnd();
 }
