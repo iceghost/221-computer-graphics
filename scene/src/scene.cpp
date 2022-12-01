@@ -210,6 +210,14 @@ void Scene::display() {
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  if (this->draw_mode == Scene::DrawMode::SOLID) {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  } else {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  }
+
+  this->draw_floor();
+
   for (auto &obj : this->objs) {
     obj.draw(this->t);
   }
@@ -319,4 +327,92 @@ boolean Scene::update(const double dt) {
 Scene::Object &Scene::add_obj(Mesh &&m) {
   this->objs.push_back(Scene::Object(std::move(m)));
   return this->objs.back();
+}
+
+void Scene::draw_floor() {
+  float floorAmbients[] = {0.3f, 0.3f, 0.3f, 1.0f};
+  float floorSpeculars[] = {1.0f, 1.0f, 1.0f, 1.0f};
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, floorAmbients);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, floorSpeculars);
+  glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
+  glNormal3d(0, 1.0, 0);
+
+  glMatrixMode(GL_MODELVIEW);
+
+  for (int z = -10; z < 10; z++) {
+    for (int x = -10; x < 10; x++) {
+      const double u = 1.0 / 4;
+      auto rect = [&](double l, double r, double t, double b) {
+        glBegin(GL_POLYGON);
+        glVertex3d(x + l * u, 0, z + t * u);
+        glVertex3d(x + r * u, 0, z + t * u);
+        glVertex3d(x + r * u, 0, z + b * u);
+        glVertex3d(x + l * u, 0, z + b * u);
+        glEnd();
+      };
+
+      auto htriangle = [&](double t, double l, boolean down) {
+        glBegin(GL_POLYGON);
+        glVertex3d(x + l * u, 0, z + t * u);
+        glVertex3d(x + l * u + u, 0, z + t * u);
+        glVertex3d(x + l * u + 0.5 * u, 0,
+                   z + t * u + (down ? 0.5 * u : -0.5 * u));
+        glEnd();
+      };
+
+      auto vtriangle = [&](double t, double l, boolean right) {
+        glBegin(GL_POLYGON);
+        glVertex3d(x + l * u, 0, z + t * u);
+        glVertex3d(x + l * u, 0, z + t * u + u);
+        glVertex3d(x + l * u + (right ? 0.5 * u : -0.5 * u), 0,
+                   z + t * u + 0.5 * u);
+        glEnd();
+      };
+
+      {
+
+        // black tile
+        float diffuse[] = {0.0f, 0.0f, 0.0f, 1.0f};
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+        rect(0, 1, 0, 1);
+      }
+
+      {
+        // gray tiles
+        float diffuse[] = {0.5f, 0.5f, 0.5f, 1.0f};
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+        rect(1, 4, 0, 1);
+        rect(0, 1, 1, 4);
+        rect(2, 3, 2, 3);
+      }
+
+      {
+        // orange tile
+        float diffuse[] = {1.0f, 0.5f, 0.0f, 1.0f};
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+        rect(1, 2, 1, 2);
+        rect(3, 4, 1, 2);
+        rect(1, 2, 3, 4);
+        rect(3, 4, 3, 4);
+        htriangle(1, 2, true);
+        htriangle(4, 2, false);
+        vtriangle(2, 1, true);
+        vtriangle(2, 4, false);
+      }
+
+      {
+        // brown tile
+        float diffuse[] = {1.0f, 0.8f, 0.8f, 1.0f};
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+        htriangle(2, 1, true);
+        htriangle(3, 1, false);
+        htriangle(2, 3, true);
+        htriangle(3, 3, false);
+        vtriangle(1, 2, true);
+        vtriangle(1, 3, false);
+        vtriangle(3, 2, true);
+        vtriangle(3, 3, false);
+      }
+    }
+  }
 }

@@ -89,10 +89,16 @@ struct Scene {
   } manual_animate_state;
   boolean anticlockwise = true;
 
+  enum class DrawMode {
+    SOLID,
+    WIREFRAME,
+  } draw_mode = DrawMode::SOLID;
+
   std::vector<Object> objs;
 
   Scene();
   void display();
+  void draw_floor();
   boolean update(const double dt);
   Object &add_obj(Mesh &&m);
 };

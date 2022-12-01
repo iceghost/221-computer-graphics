@@ -25,8 +25,6 @@ public:
 
   void draw_wireframe();
   void draw_solid();
-
-protected:
   void draw();
 };
 

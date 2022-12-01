@@ -55,7 +55,7 @@ void Scene::Object::draw(double time) {
   glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, this->material.diffuse);
   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, this->material.specular);
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, this->material.shine);
-  this->m.draw_solid();
+  this->m.draw();
   for (auto &child : this->children) {
     child.draw(time);
   }

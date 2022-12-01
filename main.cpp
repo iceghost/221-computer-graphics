@@ -68,6 +68,18 @@ int main(int argc, const char **argv) {
     case '-':
       scene->zoom_state = Scene::ZoomState::MINIFY;
       break;
+    case 'w':
+    case 'W':
+      switch (scene->draw_mode) {
+      case Scene::DrawMode::SOLID:
+        scene->draw_mode = Scene::DrawMode::WIREFRAME;
+        break;
+      case Scene::DrawMode::WIREFRAME:
+        scene->draw_mode = Scene::DrawMode::SOLID;
+        break;
+      }
+      glutPostRedisplay();
+      break;
     case 'v':
     case 'V':
       switch (scene->camera.dimension) {
