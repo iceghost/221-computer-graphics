@@ -67,7 +67,7 @@ const auto GIA_DO_B_DZ = DZ;
 Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &chan_de = this->add_obj(Cuboid(CHAN_DE_DX, CHAN_DE_DY, CHAN_DE_DZ));
   chan_de.translate([](double) { return Vector3(0, CHAN_DE_DY / 2, 0); });
-  chan_de.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  chan_de.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                       {1.0f, 0.0f, 0.0f, 1.0f},
                       {1.0f, 1.0f, 1.0f, 1.0f},
                       100.0f};
@@ -80,7 +80,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
     return Vector3(RAY_DX / 2 + TAM_TRUOT_WIDTH / 2,
                    CHAN_DE_DY / 2 + RAY_DY / 2, 0);
   });
-  ray1.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  ray1.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                    {0.0f, 1.0f, 0.0f, 1.0f},
                    {1.0f, 1.0f, 1.0f, 1.0f},
                    100.0f};
@@ -93,7 +93,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
     return Vector3(-RAY_DX / 2 - TAM_TRUOT_WIDTH / 2,
                    CHAN_DE_DY / 2 + RAY_DY / 2, 0);
   });
-  ray2.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  ray2.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                    {0.0f, 1.0f, 0.0f, 1.0f},
                    {1.0f, 1.0f, 1.0f, 1.0f},
                    100.0f};
@@ -109,7 +109,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
                            CHOT_DISTANCE,
                    TAM_TRUOT_DZ / 4);
   });
-  tam_truot_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  tam_truot_a.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                           {0.0f, 0.0f, 1.0f, 1.0f},
                           {1.0f, 1.0f, 1.0f, 1.0f},
                           100.0f};
@@ -120,7 +120,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   tam_truot_b.rotate_z([](double) { return 180.0; });
   tam_truot_b.translate(
       [](double) { return Vector3(0, -TAM_TRUOT_DZ / 2, 0); });
-  tam_truot_b.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  tam_truot_b.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                           {0.0f, 0.0f, 1.0f, 1.0f},
                           {1.0f, 1.0f, 1.0f, 1.0f},
                           100.0f};
@@ -131,7 +131,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   chot_1.translate([](double) {
     return Vector3(0, -TAM_TRUOT_DZ / 4 - CHOT_1_HEIGHT / 2 + 7 * DZ / 2, 0);
   });
-  chot_1.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  chot_1.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                      {1.0f, 0.0f, 0.0f, 1.0f},
                      {1.0f, 1.0f, 1.0f, 1.0f},
                      100.0f};
@@ -141,7 +141,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   lien_ket.translate([](double) {
     return Vector3(0, LIEN_KET_DZ / 2 - 3 * DZ, -CHOT_DISTANCE / 2);
   });
-  lien_ket.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  lien_ket.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                        {0.5f, 0.5f, 0.5f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
                        100.0f};
@@ -152,7 +152,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
     return Vector3(0, LIEN_KET_DZ / 2 + CHOT_2_HEIGHT / 2 - 5 * DZ / 2,
                    -CHOT_DISTANCE / 2);
   });
-  chot_2.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  chot_2.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                      {1.0f, 0.0f, 0.0f, 1.0f},
                      {1.0f, 1.0f, 1.0f, 1.0f},
                      100.0f};
@@ -160,7 +160,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &but_ve_a = chot_1.add_child(
       HollowCylinder(N_SEGMENTS, DZ, 3 * CHOT_DIAMETER / 2, CHOT_DIAMETER / 2));
   but_ve_a.translate([](double) { return Vector3(0, 3 * DZ / 2, 0); });
-  but_ve_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  but_ve_a.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                        {1.0f, 1.0f, 0.5f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
                        100.0f};
@@ -168,7 +168,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   auto &but_ve_b = but_ve_a.add_child(Cuboid(CHOT_DIAMETER, DZ, BUT_VE_B_DY));
   but_ve_b.translate(
       [](double) { return Vector3(0, 0, -BUT_VE_B_DY / 2 - CHOT_DIAMETER); });
-  but_ve_b.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  but_ve_b.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                        {1.0f, 1.0f, 0.5f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
                        100.0f};
@@ -177,7 +177,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
       PointedCylinder(N_SEGMENTS, DZ, CHOT_DIAMETER / 4, DZ / 2));
   but_ve_c.translate(
       [](double) { return Vector3(0, DZ, -BUT_VE_B_DY / 2 + CHOT_DIAMETER); });
-  but_ve_c.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  but_ve_c.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                        {1.0f, 0.0f, 0.0f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
                        100.0f};
@@ -187,7 +187,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   gia_do_a.translate([](double) {
     return Vector3(0, CHAN_DE_DY / 2 + GIA_DO_A_DY / 2, -3.5f * DZ);
   });
-  gia_do_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  gia_do_a.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                        {0.0f, 1.0f, 1.0f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
                        100.0f};
@@ -199,7 +199,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   gia_do_b.rotate_y([](double) { return 90.0; });
   gia_do_b.translate(
       [](double) { return Vector3(0, GIA_DO_A_DY / 2 + GIA_DO_B_DY / 2, 0); });
-  gia_do_b.material = {{0.0f, 0.0f, 0.0f, 1.0f},
+  gia_do_b.material = {{0.3f, 0.2f, 0.3f, 1.0f},
                        {0.0f, 1.0f, 1.0f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
                        100.0f};
