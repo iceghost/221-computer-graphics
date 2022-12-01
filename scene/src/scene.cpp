@@ -161,7 +161,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
       HollowCylinder(N_SEGMENTS, DZ, 3 * CHOT_DIAMETER / 2, CHOT_DIAMETER / 2));
   but_ve_a.translate([](double) { return Vector3(0, 3 * DZ / 2, 0); });
   but_ve_a.material = {{0.0f, 0.0f, 0.0f, 1.0f},
-                       {0.5f, 0.5f, 0.5f, 1.0f},
+                       {1.0f, 1.0f, 0.5f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
                        100.0f};
 
@@ -169,7 +169,7 @@ Scene::Scene() : camera({45, 3, 2, {0, CHAN_DE_DY + RAY_DY / 2, 0}}) {
   but_ve_b.translate(
       [](double) { return Vector3(0, 0, -BUT_VE_B_DY / 2 - CHOT_DIAMETER); });
   but_ve_b.material = {{0.0f, 0.0f, 0.0f, 1.0f},
-                       {0.5f, 0.5f, 0.5f, 1.0f},
+                       {1.0f, 1.0f, 0.5f, 1.0f},
                        {1.0f, 1.0f, 1.0f, 1.0f},
                        100.0f};
 
