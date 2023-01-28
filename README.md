@@ -13,3 +13,9 @@ $ cmake .. # -DCMAKE_EXPORT_COMPILE_COMMANDS=1 if using clangd's LSP
 $ cmake --build .
 $ ./main
 ```
+
+Project entry points are [`main.cpp`](main.cpp) and [`scene.cpp`](scene/src/scene.cpp).
+
+## Documents
+
+Assignment specifications and lab materials can be found at [`docs/`](docs/)
