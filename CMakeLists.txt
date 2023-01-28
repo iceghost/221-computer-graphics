@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.24)
 set(CXX_STANDARD 11)
 set(CXX_STANDARD_REQUIRED TRUE)
 
+# https://stackoverflow.com/questions/5004858/why-is-stdmin-failing-when-windows-h-is-included
+add_definitions(-DNOMINMAX)
+
 IF(MSVC)
   add_compile_options(/W4 /WX)
   add_definitions(-D_USE_MATH_DEFINES)
