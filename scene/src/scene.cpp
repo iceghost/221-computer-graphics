@@ -2,9 +2,10 @@
 #include <windows.h>
 #endif
 #include "scene.hpp"
-#include <GL/GL.h>
-#include <GL/GLU.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <cmath>
+#include <algorithm>
 
 // TWEAKABLE:
 const auto N_SEGMENTS = 20;
@@ -229,7 +230,7 @@ void Scene::display() {
   glFlush();
 }
 
-boolean Scene::update(const double dt) {
+bool Scene::update(const double dt) {
   auto redisplay = false;
 
   if (this->camera.dimension == Scene::Camera::Dimension::THREE) {
@@ -290,12 +291,12 @@ boolean Scene::update(const double dt) {
     switch (this->manual_animate_state) {
     case Scene::ManualAnimateState::UP:
       if (this->t == 0 && this->anticlockwise || 0 < this->t && this->t < 0.5) {
-        this->t = min(this->t + 0.2 * dt, 0.5);
+        this->t = std::min(this->t + 0.2 * dt, 0.5);
         this->anticlockwise = true;
         redisplay = true;
       } else if (this->t == 1 && !this->anticlockwise ||
                  0.5 < this->t && this->t < 1) {
-        this->t = max(this->t - 0.2 * dt, 0.5);
+        this->t = std::max(this->t - 0.2 * dt, 0.5);
         this->anticlockwise = false;
         redisplay = true;
       }
@@ -353,7 +354,7 @@ void Scene::draw_floor() {
         glEnd();
       };
 
-      auto htriangle = [&](double t, double l, boolean down) {
+      auto htriangle = [&](double t, double l, bool down) {
         glBegin(GL_POLYGON);
         glVertex3d(x + l * u, 0, z + t * u);
         glVertex3d(x + l * u + u, 0, z + t * u);
@@ -362,7 +363,7 @@ void Scene::draw_floor() {
         glEnd();
       };
 
-      auto vtriangle = [&](double t, double l, boolean right) {
+      auto vtriangle = [&](double t, double l, bool right) {
         glBegin(GL_POLYGON);
         glVertex3d(x + l * u, 0, z + t * u);
         glVertex3d(x + l * u, 0, z + t * u + u);

@@ -4,6 +4,7 @@
 #include "scene.hpp"
 #include <GL/gl.h>
 #include <cmath>
+#include <algorithm>
 
 Scene::Object::Object(Mesh &&m) : m(std::move(m)) {}
 

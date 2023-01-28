@@ -88,7 +88,7 @@ struct Scene {
     UP,
     DOWN,
   } manual_animate_state;
-  boolean anticlockwise = true;
+  bool anticlockwise = true;
 
   enum class DrawMode {
     SOLID,
@@ -101,6 +101,6 @@ struct Scene {
   void display();
   void draw_floor();
   void draw_trace();
-  boolean update(const double dt);
+  bool update(const double dt);
   Object &add_obj(Mesh &&m);
 };
